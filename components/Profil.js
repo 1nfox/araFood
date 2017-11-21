@@ -1,10 +1,11 @@
 import React from 'react'
 import style from '../styles/Style'
 import { View, Text, StyleSheet, ActivityIndicator, Image, Button } from 'react-native'
+import { StackNavigator } from 'react-navigation'
 
 
 
-export default class About extends React.Component {
+export default class Profil extends React.Component {
 
   static navigationOptions = {
     tabBarIcon: () => {

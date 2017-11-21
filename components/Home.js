@@ -5,7 +5,7 @@ import { StackNavigator } from 'react-navigation'
 
 
 
-class Search extends React.Component {
+export default class Home extends React.Component {
 
   static navigationOptions = {
     title: 'Recherche une ville',
@@ -26,7 +26,7 @@ class Search extends React.Component {
         <TextInput 
           underlineColorAndroid='transparent'
           style={ style.input }
-          value={this.state.city}
+          value=""
         />
         <Button color={ style.color } onPress={() => this.submit()} title="Rechercher" />
       </View>

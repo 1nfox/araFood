@@ -1,9 +1,32 @@
-import React from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-
-import Home from './components/Home'
+import React from 'react'
 import Profil from './components/Profil'
+import Home from './components/Home'
 
+import { View, StatusBar, StyleSheet } from 'react-native'
+import { TabNavigator } from 'react-navigation'
+
+import style from './styles/Style'
+
+
+const Tabs = TabNavigator({
+  Home: { screen: Home },
+  Profil: { screen: Profil }
+}, {
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    showIcon: true,
+    showLabel: false,
+    indicatorStyle: {
+      height: 2,
+      backgroundColor: '#FFFFFF'
+    },
+    style: {
+      backgroundColor: "#c0392b",
+      borderTopWidth: 1,
+      borderColor: "#3f101c"
+    }
+  },
+})
 
 
 import * as firebase from 'firebase'
@@ -17,24 +40,16 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 
-
 export default class App extends React.Component {
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+      <View style={ style.container }>
+        <StatusBar hidden={false} />
+        <Tabs />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
