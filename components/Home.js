@@ -1,11 +1,11 @@
 import React from 'react'
 import style from '../styles/Style'
-import { View, TextInput, Image, Button, Keyboard } from 'react-native'
+import { View, Text, TextInput, Image, Button, Keyboard } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 
 
 
-export default class Home extends React.Component {
+class Home extends React.Component {
 
   static navigationOptions = {
     title: 'Recherche une ville',
@@ -14,23 +14,29 @@ export default class Home extends React.Component {
     }
   }
 
-  constructor (props) {
-    super(props)
-
-  }
-
 
   render () {
+    const { navigate } = this.props.navigation;
     return (
       <View style={ style.container }>
-        <TextInput 
-          underlineColorAndroid='transparent'
-          style={ style.input }
-          value=""
-        />
-        <Button color={ style.color } onPress={() => this.submit()} title="Rechercher" />
+        <Text>Salut cest cool</Text>
       </View>
     )
   }
 
 }
+
+
+const navigationOptions = {
+  headerStyle: style.header,
+  headerTitleStyle: style.headerTitle
+}
+
+export default StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions
+  }
+
+});
+

@@ -1,8 +1,9 @@
 import React from 'react'
-import Profil from './components/Profil'
+import Profile from './components/Profile'
 import Home from './components/Home'
+import Login from './components/Login'
 
-import { View, StatusBar, StyleSheet } from 'react-native'
+import { View, Text, StatusBar, StyleSheet } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import style from './styles/Style'
@@ -10,7 +11,8 @@ import style from './styles/Style'
 
 const Tabs = TabNavigator({
   Home: { screen: Home },
-  Profil: { screen: Profil }
+  Profile: { screen: Profile },
+  Login: { screen: Login },
 }, {
   tabBarPosition: 'bottom',
   tabBarOptions: {
@@ -28,7 +30,6 @@ const Tabs = TabNavigator({
   },
 })
 
-
 import * as firebase from 'firebase'
 const firebaseConfig = {
   apiKey: "AIzaSyAl88Ba1yzhJjQ9AgA-Yzlo9V58vKWVAi4",
@@ -37,19 +38,54 @@ const firebaseConfig = {
   storageBucket: "gs://ara-food.appspot.com",
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig)
-
+//const firebaseApp = firebase.initializeApp(firebaseConfig)
 
 export default class App extends React.Component {
 
+  constructor () {
+    super()
+    firebase.initializeApp(firebaseConfig)
+    this.state = {
+      loading: true
+    }
+  }
+
+
+  componentWillMount () {
+    const ref = firebase.database().ref('events')
+
+    ref.on('value', snapshot => {
+      this.setState({
+        eventList: snapshot.val(),
+        loading: false
+      })
+    })
+
+  }
+
   render() {
-    return (
+    if(this.state.loading){
+      return <View><Text>Chargement ...</Text></View>
+    } else {
+
+      return (
       <View style={ style.container }>
         <StatusBar hidden={false} />
         <Tabs />
       </View>
     );
+
+    }
+
+
+    
   }
 }
 
+
+
+
+
+
+  
 
