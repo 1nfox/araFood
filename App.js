@@ -2,29 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 
 import Home from './components/Home'
-import Search from './components/Profil'
+import Profil from './components/Profil'
 
-
-import { TabNavigator } from 'react-navigation'
-const Tabs = TabNavigator({
-  Search: { screen: Home },
-  Profil: { screen: Profil }
-}, {
-  tabBarPosition: 'bottom',
-  tabBarOptions: {
-    showIcon: true,
-    showLabel: false,
-    indicatorStyle: {
-      height: 2,
-      backgroundColor: '#FFFFFF'
-    },
-    style: {
-      backgroundColor: "#c0392b",
-      borderTopWidth: 1,
-      borderColor: "#3f101c"
-    }
-  },
-})
 
 
 import * as firebase from 'firebase'
