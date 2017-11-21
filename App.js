@@ -56,7 +56,7 @@ export default class App extends React.Component {
 
     ref.on('value', snapshot => {
       this.setState({
-        eventList: snapshot.val(),
+        eventsList: snapshot.val(),
         loading: false
       })
     })
@@ -65,12 +65,16 @@ export default class App extends React.Component {
 
   render() {
     if(this.state.loading){
-      return <View><Text>Chargement ...</Text></View>
+      return <View style={ style.container }><Text>Chargement ...</Text></View>
     } else {
-
+      //console.log(this.state.eventList)
+      const events = Object.keys(this.state.eventsList).map(key => {
+        return <Text key={key}>{ this.state.eventsList[key].title }</Text>
+      })
       return (
       <View style={ style.container }>
         <StatusBar hidden={false} />
+        { events }
         <Tabs />
       </View>
     );
