@@ -19,7 +19,7 @@ export default class Login extends Component {
 
   static navigationOptions = {
     tabBarIcon: () => {
-      return <Image source={require('./icons/home.png')} style={{ width: 20, height: 20 }} />
+      return <Image source={require('./icons/user.png')} style={{ width: 20, height: 20 }} />
     }
   }
 
@@ -58,15 +58,15 @@ export default class Login extends Component {
 
     // A simple UI with a toolbar, and content below it.
         return (
-                <View style={styles.container}>
-                        <ToolbarAndroid
-                    style={styles.toolbar}
-                    title="Login" />
-                  <View style={styles.body}>
-                    {content}
-                  </View>
-                </View>
-                );
+          <View style={styles.container}>
+                  <ToolbarAndroid
+              style={styles.toolbar}
+              title="Login" />
+            <View style={styles.body}>
+              {content}
+            </View>
+          </View>
+        );
   }
 
   login () {

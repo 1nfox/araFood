@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, ActivityIndicator, Image, Button } from 'react-
 
 
 
-
 export default class Profil extends React.Component {
 
   static navigationOptions = {

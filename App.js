@@ -11,7 +11,7 @@ import style from './styles/Style'
 
 const Tabs = TabNavigator({
   Home: { screen: Home },
-  Profile: { screen: Profile },
+  //Profile: { screen: Profile },
   Login: { screen: Login },
 }, {
   tabBarPosition: 'bottom',
@@ -37,8 +37,9 @@ const firebaseConfig = {
   databaseURL: "https://ara-food.firebaseio.com",
   storageBucket: "gs://ara-food.appspot.com",
 };
-
-//const firebaseApp = firebase.initializeApp(firebaseConfig)
+console.ignoredYellowBox = [
+'Setting a timer'
+]
 
 export default class App extends React.Component {
 
@@ -51,39 +52,16 @@ export default class App extends React.Component {
   }
 
 
-  componentWillMount () {
-    const ref = firebase.database().ref('events')
-
-    ref.on('value', snapshot => {
-      this.setState({
-        eventsList: snapshot.val(),
-        loading: false
-      })
-    })
-
-  }
-
   render() {
-    if(this.state.loading){
-      return <View style={ style.container }><Text>Chargement ...</Text></View>
-    } else {
-      //console.log(this.state.eventList)
-      const events = Object.keys(this.state.eventsList).map(key => {
-        return <Text key={key}>{ this.state.eventsList[key].title }</Text>
-      })
       return (
-      <View style={ style.container }>
-        <StatusBar hidden={false} />
-        { events }
-        <Tabs />
-      </View>
-    );
-
-    }
-
-
-    
+        <View style={ style.container }>
+          <StatusBar hidden={false} />
+          <Tabs />
+        </View>
+      );
   }
+
+
 }
 
 

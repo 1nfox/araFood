@@ -1,14 +1,19 @@
 import React from 'react'
 import style from '../styles/Style'
+import Events from './Events'
 import { View, Text, TextInput, Image, Button, Keyboard } from 'react-native'
-import { StackNavigator } from 'react-navigation'
-
-
+import { StackNavigator, TabNavigator } from 'react-navigation'
 
 class Home extends React.Component {
 
+
+  constructor (props) {
+    super(props)
+  }
+
+
   static navigationOptions = {
-    title: 'Recherche une ville',
+    title: 'Evénements à venir',
     tabBarIcon: () => {
       return <Image source={require('./icons/home.png')} style={{ width: 20, height: 20 }} />
     }
@@ -16,10 +21,9 @@ class Home extends React.Component {
 
 
   render () {
-    const { navigate } = this.props.navigation;
     return (
-      <View style={ style.container }>
-        <Text>Salut cest cool</Text>
+      <View>
+        <Events />
       </View>
     )
   }
