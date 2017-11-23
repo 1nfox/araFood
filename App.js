@@ -1,6 +1,6 @@
 import React from 'react'
 import Profile from './components/Profile'
-import Home from './components/Home'
+import Events from './components/Events'
 import Login from './components/Login'
 
 import { View, Text, StatusBar, StyleSheet } from 'react-native'
@@ -10,7 +10,7 @@ import style from './styles/Style'
 
 
 const Tabs = TabNavigator({
-  Home: { screen: Home },
+  Events: { screen: Events },
   Profile: { screen: Profile },
   
 }, {
@@ -48,7 +48,7 @@ export default class App extends React.Component {
     firebase.initializeApp(firebaseConfig)
     this.state = {
       loading: true, 
-      logged: false
+      logged: true
     }
   }
 

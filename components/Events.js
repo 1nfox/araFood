@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 
 
-export default class Home extends React.Component {
+export default class Events extends React.Component {
 
 
   constructor (props) {
@@ -46,7 +46,6 @@ export default class Home extends React.Component {
     })
   }
 
- 
 
   render() {
     if(this.state.loading){

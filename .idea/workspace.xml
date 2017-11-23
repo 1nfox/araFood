@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eab6e2e3-e31b-4a07-9281-a49101c7f441" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/components/Home.js" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App.js" afterPath="$PROJECT_DIR$/App.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/EventsRow.js" afterPath="$PROJECT_DIR$/components/EventsRow.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/Home.js" afterPath="$PROJECT_DIR$/components/Home.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/Profile.js" afterPath="$PROJECT_DIR$/components/Profile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,8 +34,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="464" />
-    <option name="y" value="94" />
+    <option name="x" value="-1688" />
+    <option name="y" value="183" />
     <option name="width" value="1440" />
     <option name="height" value="782" />
   </component>
@@ -181,7 +180,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="464" y="94" width="1440" height="782" extended-state="0" />
+    <frame x="-1688" y="183" width="1440" height="782" extended-state="0" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />

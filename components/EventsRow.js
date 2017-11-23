@@ -7,7 +7,8 @@ import { StackNavigator } from 'react-navigation'
 
 
 import FadeInView from './animation/fadeInView'
-
+import Events from './Events'
+import Event from './Event'
 
 
 
@@ -20,6 +21,14 @@ export default class EventsRow extends React.Component{
     }
   }
 
+  static navigationOptions = {
+    title: 'Recherche une ville',
+  }
+
+  viewEvent () {
+    console.log(this.props)
+    this.props.navigation.navigate('Event', {event: 'yolo'})
+  }
 
   render () {
       return(
@@ -34,7 +43,7 @@ export default class EventsRow extends React.Component{
           <View style={ style.flex }>
             <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
           </View>
-          <Button onPress={() => this.viewEvent(this.props)} title="Voir" />
+          <Button onPress={() => this.viewEvent()} title="Voir" />
         </View>
       </FadeInView>
       )
@@ -79,9 +88,6 @@ const style = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 22,
-
   }
-
-
 })
 
