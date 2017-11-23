@@ -1,8 +1,13 @@
 import React from 'react'
-import {  View, Text, StyleSheet, Image, Button } from 'react-native'
 import globaleStyle from '../styles/Style'
+
+
+import {  View, Text, StyleSheet, Image, Button } from 'react-native'
+import { StackNavigator } from 'react-navigation'
+
+
 import FadeInView from './animation/fadeInView'
-import Event from './Event'
+
 
 
 
@@ -11,15 +16,10 @@ export default class EventsRow extends React.Component{
   constructor (props) {
     super(props)
     this.state = {
-      loading: true
+      loading: true,
     }
   }
 
-  viewEvent () {
-    //eyboard.dismiss(),
-    console.log(this.props.key)
-    //this.props.navigation.navigate('Event', {event: this.props.event.id})
-  }
 
   render () {
       return(
@@ -31,11 +31,10 @@ export default class EventsRow extends React.Component{
           <Text style={ style.temp }>
             { this.props.event.title }
           </Text>
-
           <View style={ style.flex }>
             <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
           </View>
-          <Button onPress={() => this.viewEvent()} title="Rechercher" />
+          <Button onPress={() => this.viewEvent(this.props)} title="Voir" />
         </View>
       </FadeInView>
       )

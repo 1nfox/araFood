@@ -11,8 +11,8 @@ import style from './styles/Style'
 
 const Tabs = TabNavigator({
   Home: { screen: Home },
-  //Profile: { screen: Profile },
-  Login: { screen: Login }
+  Profile: { screen: Profile },
+  
 }, {
   tabBarPosition: 'bottom',
   tabBarOptions: {
@@ -47,18 +47,30 @@ export default class App extends React.Component {
     super()
     firebase.initializeApp(firebaseConfig)
     this.state = {
-      loading: true
+      loading: true, 
+      logged: false
     }
   }
 
 
   render() {
-      return (
-        <View style={ style.container }>
-          <StatusBar hidden={false} />
-          <Tabs />
-        </View>
-      );
+
+      if(this.state.logged){
+        return (
+          <View style={ style.container }>
+            <StatusBar hidden={false} />
+            <Tabs />
+          </View>
+        );
+      } else {
+        return (
+          <View style={ style.container }>
+            <StatusBar hidden={false} />
+            <Login />
+          </View>
+        );
+      }
+      
   }
 
 

@@ -1,11 +1,11 @@
 import React from 'react'
-
 import { View, Text, StatusBar, StyleSheet, Image, ActivityIndicator, ListView } from 'react-native'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { StackNavigator } from 'react-navigation'
+
 
 import style from '../styles/Style'
 import EventsRow from './EventsRow'
-import Event from './Event'
+
 
 import * as firebase from 'firebase'
 const firebaseConfig = {
@@ -16,7 +16,8 @@ const firebaseConfig = {
 };
 
 
-class Home extends React.Component {
+
+export default class Home extends React.Component {
 
 
   constructor (props) {
@@ -25,6 +26,7 @@ class Home extends React.Component {
       loading: true
     }
   }
+
 
   static navigationOptions = {
     title: 'Evénements à venir',
@@ -36,7 +38,6 @@ class Home extends React.Component {
 
   componentWillMount () {
     const ref = firebase.database().ref('events')
-
     ref.on('value', snapshot => {
       this.setState({
         eventsList: snapshot.val(),
@@ -45,20 +46,17 @@ class Home extends React.Component {
     })
   }
 
-  
+ 
 
   render() {
-    /*for(var key in this.state.eventsList){
-      console.log(key)
-    }*/
     if(this.state.loading){
-      return <View><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
+      return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
       return (
         <ListView 
           dataSource={ds.cloneWithRows(this.state.eventsList) } 
-          renderRow={(row, j, k) => <EventsRow event={row} key={ j } index={parseInt(k, 10)}/>}
+          renderRow={(row, j, k) => <EventsRow event={row} index={k}/> }
         />
       )
     }
@@ -66,22 +64,3 @@ class Home extends React.Component {
 
 }
 
-
-
-const navigationOptions = {
-  headerStyle: style.header,
-  headerTitleStyle: style.headerTitle
-}
-
-export default StackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions
-  },
-  Result: {
-    screen: Event,
-    navigationOptions
-  },
-  
-  
-});
