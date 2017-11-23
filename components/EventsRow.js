@@ -1,7 +1,8 @@
 import React from 'react'
-import {  View, Text, StyleSheet, Image } from 'react-native'
+import {  View, Text, StyleSheet, Image, Button } from 'react-native'
 import globaleStyle from '../styles/Style'
 import FadeInView from './animation/fadeInView'
+import Event from './Event'
 
 
 
@@ -15,8 +16,9 @@ export default class EventsRow extends React.Component{
   }
 
   viewEvent () {
-    Keyboard.dismiss(),
-    this.props.navigation.navigate('Event', {event: this.props.id})
+    //eyboard.dismiss(),
+    console.log(this.props.key)
+    //this.props.navigation.navigate('Event', {event: this.props.event.id})
   }
 
   render () {
@@ -33,6 +35,7 @@ export default class EventsRow extends React.Component{
           <View style={ style.flex }>
             <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
           </View>
+          <Button onPress={() => this.viewEvent()} title="Rechercher" />
         </View>
       </FadeInView>
       )
@@ -82,3 +85,4 @@ const style = StyleSheet.create({
 
 
 })
+

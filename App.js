@@ -12,7 +12,7 @@ import style from './styles/Style'
 const Tabs = TabNavigator({
   Home: { screen: Home },
   //Profile: { screen: Profile },
-  Login: { screen: Login },
+  Login: { screen: Login }
 }, {
   tabBarPosition: 'bottom',
   tabBarOptions: {
