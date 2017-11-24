@@ -25,9 +25,9 @@ export default class EventsRow extends React.Component{
     title: 'Recherche une ville',
   }
 
-  viewEvent () {
-    console.log(this.props)
-    this.props.navigation.navigate('Result', {event: 'yolo'})
+  viewEvent (eventInfos) {
+    //console.log(eventInfos)
+    this.props.navigation.navigate('Result', {event: eventInfos})
   }
 
   render () {
@@ -43,7 +43,7 @@ export default class EventsRow extends React.Component{
           <View style={ style.flex }>
             <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
           </View>
-          <Button onPress={() => this.viewEvent()} title="Voir" />
+          <Button onPress={() => this.viewEvent(this.props)} title="Voir" />
         </View>
       </FadeInView>
       )
