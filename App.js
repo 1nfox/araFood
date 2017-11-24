@@ -54,7 +54,7 @@ export default class App extends React.Component {
 
 
   render() {
-
+      
       if(this.state.logged){
         return (
           <View style={ style.container }>

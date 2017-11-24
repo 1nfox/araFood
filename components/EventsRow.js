@@ -27,7 +27,7 @@ export default class EventsRow extends React.Component{
 
   viewEvent () {
     console.log(this.props)
-    this.props.navigation.navigate('Event', {event: 'yolo'})
+    this.props.navigation.navigate('Result', {event: 'yolo'})
   }
 
   render () {

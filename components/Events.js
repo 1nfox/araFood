@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, Text, StatusBar, StyleSheet, Image, ActivityIndicator, ListView } from 'react-native'
+import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIndicator, ListView } from 'react-native'
 import { StackNavigator } from 'react-navigation'
 
 
 import style from '../styles/Style'
 import EventsRow from './EventsRow'
+import Event from './Event'
 
 
 import * as firebase from 'firebase'
@@ -17,8 +18,7 @@ const firebaseConfig = {
 
 
 
-export default class Events extends React.Component {
-
+class Events extends React.Component {
 
   constructor (props) {
     super(props)
@@ -26,7 +26,6 @@ export default class Events extends React.Component {
       loading: true
     }
   }
-
 
   static navigationOptions = {
     title: 'Evénements à venir',
@@ -46,8 +45,12 @@ export default class Events extends React.Component {
     })
   }
 
+  submit () {
+    Keyboard.dismiss(),
+    this.props.navigation.navigate('Result', {city: this.state.city})
+  }
 
-  render() {
+  render () {
     if(this.state.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
@@ -55,7 +58,7 @@ export default class Events extends React.Component {
       return (
         <ListView 
           dataSource={ds.cloneWithRows(this.state.eventsList) } 
-          renderRow={(row, j, k) => <EventsRow event={row} index={k}/> }
+          renderRow={(row, j, k) => <EventsRow navigation={this.props.navigation} event={row} index={k}/> }
         />
       )
     }
@@ -63,3 +66,19 @@ export default class Events extends React.Component {
 
 }
 
+const navigationOptions = {
+  headerStyle: style.header,
+  headerTitleStyle: style.headerTitle
+}
+
+export default StackNavigator({
+  Events: {
+    screen: Events,
+    navigationOptions
+  },
+  Result: {
+    screen: Event,
+    navigationOptions
+  },
+
+});
