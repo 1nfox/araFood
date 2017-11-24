@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions, FlatList } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import style from '../styles/Style'
@@ -31,7 +31,8 @@ export default class Events extends React.Component {
 
 
   render () {
-    console.log(this.state.event.imageUrl)
+    console.log(this.state.event)
+    var suscribersCount = Object.keys(this.state.event.subscribers).length;
     return (
       <View style={{
         flex: 1,
@@ -40,13 +41,23 @@ export default class Events extends React.Component {
         alignSelf: 'stretch',
 
       }}>
-        <View style={{width: width, height: 300, paddingTop: 24}}>
+        <View style={{width: width, height: 300}}>
           <Image source={{ uri: this.state.event.imageUrl }} style={{ width: width, height: 300 }} />
         </View>
-        <View style={{width: width, height: 200,backgroundColor: '#333'}}>
-          <Text>Nombre de participants: </Text>
+        <View style={{width: width, height: 'auto',backgroundColor: '#333'}}>
+          <Text style={{alignSelf:'center',fontSize:20,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 20, marginBottom: 20 }}>
+            Nombre de participants: { suscribersCount }
+          </Text>
         </View>
-        <View style={{width: width, height: 100,backgroundColor: 'steelblue'}} />
+        <View style={{width: width, height: 100,backgroundColor: '#dedede'}}>
+          <Text style={{ alignSelf: 'center', fontSize: 16, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+            Liste des participants
+          </Text>
+          <FlatList
+            data={this.state.event.subscribers}
+            renderItem={({item}) => <Text>{item.key}</Text>}
+          />
+        </View>
       </View>
     )
   }

@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eab6e2e3-e31b-4a07-9281-a49101c7f441" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/Event.js" afterPath="$PROJECT_DIR$/components/Event.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/components/EventsRow.js" afterPath="$PROJECT_DIR$/components/EventsRow.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
