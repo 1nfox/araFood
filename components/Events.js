@@ -23,7 +23,8 @@ class Events extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+
     }
   }
 
@@ -35,7 +36,7 @@ class Events extends React.Component {
   }
 
 
-  componentWillMount () {
+  componentDidMount () {
     const ref = firebase.database().ref('events')
     ref.on('value', snapshot => {
       this.setState({
@@ -45,10 +46,6 @@ class Events extends React.Component {
     })
   }
 
-  submit () {
-    Keyboard.dismiss(),
-    this.props.navigation.navigate('Result', {city: this.state.city})
-  }
 
   render () {
     if(this.state.loading){

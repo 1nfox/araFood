@@ -15,10 +15,10 @@ export default class Profil extends React.Component {
   render () {
     const { navigate } = this.props.navigation;
     return (
-      <View style={ style.container }>
-        <Text style={style.title}>Ara Food - Profil</Text>
+      <View style={ style.container, { padding: 50 } }>
+        <Text style={ style.title }>Ara Food - Profil</Text>
         <Text>Application très en vogue pour organiser des évenements que se soit autour de la mal bouffe, 
-        la bonne nouriture ou même d'autres évenement equestres. Cepdendant, il est interdit d'utiliser cette applications  des fins de prostitution gustative</Text>
+        la bonne nouriture ou même d'autres évenement equestres. Cepdendant, il est interdit d'utiliser cette applications à des fins de prostitution gustative</Text>
       </View>
     );
   }
