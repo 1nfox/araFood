@@ -4,8 +4,8 @@ import { StackNavigator } from 'react-navigation'
 
 
 import style from '../styles/Style'
-import EventsRow from './EventsRow'
-import Event from './Event'
+import EventsRow from '../components/EventsRow'
+import Event from '../components/Event'
 
 
 import * as firebase from 'firebase'
@@ -31,7 +31,7 @@ class Events extends React.Component {
   static navigationOptions = {
     title: 'Evénements à venir',
     tabBarIcon: () => {
-      return <Image source={require('./icons/home.png')} style={{ width: 20, height: 20 }} />
+      return <Image source={require('../components/icons/home.png')} style={{ width: 20, height: 20 }} />
     }
   }
 

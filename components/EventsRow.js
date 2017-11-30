@@ -7,7 +7,7 @@ import { StackNavigator } from 'react-navigation'
 
 
 import FadeInView from './animation/fadeInView'
-import Events from './Events'
+import EventsList from '../containers/Events-list'
 import Event from './Event'
 
 export default class EventsRow extends React.Component{
