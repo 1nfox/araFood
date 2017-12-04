@@ -1,29 +1,20 @@
 import React from 'react'
 import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIndicator, ListView } from 'react-native'
-import { StackNavigator } from 'react-navigation'
 
+import { connect } from 'react-redux';
+import { getEvents } from '../actions/firebase_event_handler';
 
 import style from '../styles/Style'
-import EventsRow from '../components/EventsRow'
-import Event from '../components/Event'
+import EventsListItem from '../components/Events-list-item'
+import EventItem from '../components/Event-item'
 
 
-import * as firebase from 'firebase'
-const firebaseConfig = {
-  apiKey: "AIzaSyAl88Ba1yzhJjQ9AgA-Yzlo9V58vKWVAi4",
-  authDomain: "ara-food.firebaseapp.com",
-  databaseURL: "https://ara-food.firebaseio.com",
-  storageBucket: "gs://ara-food.appspot.com",
-};
-
-
-
-class Events extends React.Component {
+class EventsList extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      loading: true,
+      loading: this.props.loading,
 
     }
   }
@@ -37,25 +28,19 @@ class Events extends React.Component {
 
 
   componentDidMount () {
-    const ref = firebase.database().ref('events')
-    ref.on('value', snapshot => {
-      this.setState({
-        eventsList: snapshot.val(),
-        loading: false
-      })
-    })
+    this.props.onGetEvent();
   }
 
-
   render () {
+    const eventsList = this.props.events;
     if(this.state.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
       return (
         <ListView 
-          dataSource={ds.cloneWithRows(this.state.eventsList) } 
-          renderRow={(row, j, k) => <EventsRow navigation={this.props.navigation} event={row} index={k}/> }
+          dataSource={ds.cloneWithRows(eventsList) }
+          renderRow={(row, j, k) => <EventsListItem navigation={this.props.navigation} event={row} index={k}/> }
         />
       )
     }
@@ -63,19 +48,17 @@ class Events extends React.Component {
 
 }
 
-const navigationOptions = {
-  headerStyle: style.header,
-  headerTitleStyle: style.headerTitle
-}
+const mapStateToProps = (state) => {
+    return {
+        events: state.events,
+        loading: state.loading
+    }
+};
 
-export default StackNavigator({
-  Events: {
-    screen: Events,
-    navigationOptions
-  },
-  Result: {
-    screen: Event,
-    navigationOptions
-  },
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetEvent: () => dispatch(getEvents()),
+    };
+};
 
-});
+export default connect(mapStateToProps, mapDispatchToProps)(EventsList);

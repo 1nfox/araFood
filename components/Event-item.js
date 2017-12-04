@@ -8,7 +8,7 @@ import Subscribers from './Subscribers'
 
 
 
-export default class Events extends React.Component {
+export default class EventItem extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
     return{

@@ -6,13 +6,13 @@ import { View, Text, StatusBar, StyleSheet } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import Profile from './Profile'
-import EventsList from './Events-list'
+import EventsListStackNavigator from '../components/Events-list-stack-navigator'
 import Login from './Login'
 
 import style from '../styles/Style'
 
 const Tabs = TabNavigator({
-  EventsList: { screen: EventsList },
+  EventsList: { screen: EventsListStackNavigator },
   Profile: { screen: Profile },
 
 }, {

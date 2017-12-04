@@ -8,9 +8,9 @@ import { StackNavigator } from 'react-navigation'
 
 import FadeInView from './animation/fadeInView'
 import EventsList from '../containers/Events-list'
-import Event from './Event'
+import EventItem from './Event-item'
 
-export default class EventsRow extends React.Component{
+export default class EventListItem extends React.Component{
 
   constructor (props) {
     super(props)
