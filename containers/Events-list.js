@@ -11,14 +11,6 @@ import EventItem from '../components/Event-item'
 
 class EventsList extends React.Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      loading: this.props.loading,
-
-    }
-  }
-
   static navigationOptions = {
     title: 'Evénements à venir',
     tabBarIcon: () => {
@@ -26,14 +18,13 @@ class EventsList extends React.Component {
     }
   }
 
-
-  componentDidMount () {
+  componentWillMount () {
     this.props.onGetEvent();
   }
 
   render () {
     const eventsList = this.props.events;
-    if(this.state.loading){
+    if(this.props.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -50,8 +41,8 @@ class EventsList extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        events: state.events,
-        loading: state.loading
+        events: state.events.events,
+        loading: state.events.loading
     }
 };
 

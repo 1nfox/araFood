@@ -14,7 +14,6 @@ export function getEvents() {
     dispatch({ type: EVENT_REQUEST_START });
     return firebase.database().ref('/events').once('value', snap => {
       const events = snap.val();
-      console.log(events)
       dispatch({ type: EVENT_REQUEST_SUCCESS, payload: events })
       dispatch({ type: EVENT_REQUEST_END })
     })
