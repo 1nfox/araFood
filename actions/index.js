@@ -16,7 +16,8 @@ export const signInUser = ( email, password ) => (dispatch) => {
         dispatch({ type: SIGN_IN_SUCCESS, payload: user });
     })
     .catch( (error) => {
-        dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); });
+        dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); 
+    });
 };
 
 export const signOutUser = () => (dispatch) => {

@@ -13,15 +13,15 @@ const navigationOptions = {
 }
 
 const EventListStackNavigator = StackNavigator({
-                         Events: {
-                           screen: EventsList,
-                           navigationOptions
-                         },
-                         Result: {
-                           screen: EventItem,
-                           navigationOptions
-                         },
+   Events: {
+     screen: EventsList,
+     navigationOptions
+   },
+   Result: {
+     screen: EventItem,
+     navigationOptions
+   },
 
-                       })
+})
 
 export default EventListStackNavigator

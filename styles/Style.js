@@ -33,7 +33,9 @@ export default {
   },
 
   header:{
-    backgroundColor: red
+    backgroundColor: red,
+    height: 65,
+    paddingTop: 20
   },
 
   headerTitle: {

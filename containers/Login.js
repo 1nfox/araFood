@@ -6,7 +6,8 @@ import {
   Image,
   TouchableHighlight,
   ToolbarAndroid,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar,
 } from 'react-native';
 
 import styles from '../styles/loginStyle.js'
@@ -15,14 +16,20 @@ import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { signInUser } from '../actions'
 
+
+
 class Login extends Component {
+
+    static navigationOptions = {
+      title: 'AraFood - Connexion',
+    }
 
     constructor(props){
         super(props);
         // We have the same props as in our signup.js file and they serve the same purposes.
         this.state = {
-          email: '',
-          password: '',
+          email: 'rolivier@groupe-ara.com',
+          password: 'roliara',
           loading: false
         }
     }
@@ -58,9 +65,9 @@ class Login extends Component {
     // A simple UI with a toolbar, and content below it.
         return (
           <View style={styles.container}>
-                  <ToolbarAndroid
-              style={styles.toolbar}
-              title="Login" />
+            <View style={ styles.img, { backgroundColor: '#333',justifyContent: 'center', alignItems: 'center', paddingTop:120 } }>
+              <Image source={require('../components/icons/logo-ara.png')} style={{ width: 150, height: 150 }}/>
+            </View>
             <View style={styles.body}>
               {content}
             </View>

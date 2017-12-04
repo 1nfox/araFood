@@ -37,7 +37,7 @@ class App extends Component {
   render() {
     const {user} = this.props
       return (
-        user.user ? <Tabs /> : <Login />
+          user.user ?  <Tabs /> :  <Login />
       );
   }
 }

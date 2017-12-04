@@ -1,37 +1,41 @@
+const red = '#D92719'
+
 export default {
   container: {
     alignItems: 'stretch',
-    flex: 1
+    flex: 1,
   },
   body: {
     flex: 9,
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#333',
   },
   toolbar: {
-        height: 56,
-    backgroundColor: '#e9eaed',
+    backgroundColor: red,
+    height: 70,
+    paddingTop: 0
   },
   textInput: {
     height: 40,
     width: 200,
-    borderWidth: 1
+    color: '#fff',
+    textAlign: 'center',
   },
   transparentButton: {
     marginTop: 10,
     padding: 15
   },
   transparentButtonText: {
-    color: '#0485A9',
+    color: red,
     textAlign: 'center',
     fontSize: 16
   },
   primaryButton: {
     margin: 10,
     padding: 15,
-    backgroundColor: '#529ecc'
+    backgroundColor: red
   },
   primaryButtonText: {
     color: '#FFF',

@@ -13,7 +13,7 @@ const loggerMiddleware = createLogger();
 const store = createStore(
     rootReducer,
     applyMiddleware(
-        loggerMiddleware,
+        //loggerMiddleware,
         Thunk
     )
 );
