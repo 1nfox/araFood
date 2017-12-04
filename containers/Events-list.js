@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIndicator, ListView } from 'react-native'
+import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIndicator, FlatList } from 'react-native'
 
 import { connect } from 'react-redux';
-import { getEvents } from '../actions/firebase_event_handler';
+import { getEvents, watchEventAdded } from '../actions/firebase_event_handler';
 
 import style from '../styles/Style'
 import EventsListItem from '../components/Events-list-item'
@@ -24,14 +24,20 @@ class EventsList extends React.Component {
 
   render () {
     const eventsList = this.props.events;
+    eventsList ? eventsList : eventsList.sort()
     if(this.props.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
       return (
-        <ListView 
-          dataSource={ds.cloneWithRows(eventsList) }
-          renderRow={(row, j, k) => <EventsListItem navigation={this.props.navigation} event={row} index={k}/> }
+        <FlatList
+            data={eventsList}
+            renderItem={({ item }) => (
+              <EventsListItem
+                navigation={this.props.navigation}
+                event={item}
+                keyExtractor={item => item.key}
+              />
+            )}
         />
       )
     }
@@ -47,6 +53,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+    watchEventAdded(dispatch)
     return {
         onGetEvent: () => dispatch(getEvents()),
     };
