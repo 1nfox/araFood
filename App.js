@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import createLogger from 'redux-logger'
 import Thunk from 'redux-thunk';
 import rootReducer from './reducers'
-/*import firebase from './firebase'*/
 
 import AppContainer from './containers/App'
 
@@ -13,7 +12,7 @@ const loggerMiddleware = createLogger();
 const store = createStore(
     rootReducer,
     applyMiddleware(
-        loggerMiddleware,
+        //loggerMiddleware,
         Thunk
     )
 );

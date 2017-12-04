@@ -21,8 +21,8 @@ class Login extends Component {
         super(props);
         // We have the same props as in our signup.js file and they serve the same purposes.
         this.state = {
-          email: '',
-          password: '',
+          email: 'jbelmont@groupe-ara.com',
+          password: 'jbelara',
           loading: false
         }
     }

@@ -13,26 +13,44 @@ export function getEvents() {
   return dispatch => {
     dispatch({ type: EVENT_REQUEST_START });
     return firebase.database().ref('/events').once('value', snap => {
-      const events = snap.val();
+        const events = []
+        const obj = snap.val()
+        for (let key in obj) {
+          let subscribers = []
+          if (obj[key].subscribers !== 'undefined') {
+            const subList = obj[key].subscribers
+            for (let key in subList) {
+              subscribers.push(subList[key])
+            }
+          }
+          events.push({
+            id: key,
+            title: obj[key].title,
+            description: obj[key].description,
+            imageUrl: obj[key].imageUrl,
+            date: obj[key].date,
+            creatorId: obj[key].creatorId,
+            subscribers: subscribers
+          })
+        }
       dispatch({ type: EVENT_REQUEST_SUCCESS, payload: events })
       dispatch({ type: EVENT_REQUEST_END })
     })
     .catch((error) => {
       console.log(error);
       dispatch({ type: EVENT_REQUEST_ERROR, payload: events });
+      dispatch({ type: EVENT_REQUEST_END })
     });
   }
 }
 
 export function watchEventAdded(dispatch) {
-    dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_added', (snap) => {
-        dispatch({ type: EVENT_ADDED, payload: snap.val() });
+        let newEvent = { [snap.key] : snap.val()}
+        dispatch({ type: EVENT_REQUEST_START });
+        dispatch({ type: EVENT_ADDED, payload: newEvent });
+        dispatch({ type: EVENT_REQUEST_END })
     })
-    .catch((error) => {
-        console.log(error);
-        dispatch({ type: EVENT_REQUEST_ERROR, payload: events });
-    });
 }
 
 export function watchEventRemoved(dispatch) {
