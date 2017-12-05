@@ -2,6 +2,7 @@ import {
     AppRegistry,
     View,
     Text,
+    TextInput,
     StyleSheet,
     TouchableHighlight,
     ActivityIndicator,
@@ -15,7 +16,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { signOutUser } from '../actions'
 
-import style from '../styles/Style'
+import styles from '../styles/loginStyle'
 
 class Profile extends React.Component {
 
@@ -25,18 +26,43 @@ class Profile extends React.Component {
     }
   }
 
-  onButtonPress() {
-      this.props.signOutUser()
+  constructor (props) {
+    super(props)
   }
+
+  logout() {
+    this.props.signOutUser()
+  }
+
 
   render () {
     const { navigate } = this.props.navigation;
-    return (
-      <View style={ style.container, { padding: 50 } }>
-        <Text style={ style.title }>Ara Food - Profil</Text>
-        <TouchableHighlight onPress={() => this.onButtonPress()} style={style.primaryButton}>
-          <Text style={style.primaryButtonText}>Logout</Text>
+    const content = 
+      <View>
+        <TextInput
+          style={styles.textInput}
+          value={this.props.user.user.email}
+          placeholder={"Email Address"} />
+        <TextInput
+          style={styles.textInput}
+          secureTextEntry={true}
+          placeholder={"Password"} />
+        <TouchableHighlight onPress={() => this.logout()} style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>Logout</Text>
         </TouchableHighlight>
+      </View>;
+    return (
+       <View style={styles.container}>
+       <View style={{ height: 65, backgroundColor: '#c0392b' }}>
+        <Text style={{ paddingTop: 30, fontSize: 18, fontWeight: '700', marginLeft: 15, color: '#FFF' }}>Profil de {this.props.user.user.email}</Text>
+       </View>
+        <View style={ styles.img, { backgroundColor: '#333',justifyContent: 'center', alignItems: 'center', paddingTop:120 }}>
+          <Image source={{ uri: this.props.user.user.imageUrl }} style={{ width: 150, height: 150 }}/>
+        </View>
+        <View style={styles.body}>
+          {content}
+        </View>
+        
       </View>
     );
   }
@@ -53,5 +79,3 @@ export default connect(mapStateToProps, {
 })(Profile);
 
 AppRegistry.registerComponent('Profile', () => Profile);
-
-
