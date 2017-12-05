@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIndicator, FlatList } from 'react-native'
+import moment from 'moment'
 
 import { connect } from 'react-redux';
 import { getEvents, watchEventAdded } from '../actions/firebase_event_handler';
@@ -23,8 +24,14 @@ class EventsList extends React.Component {
   }
 
   render () {
-    const eventsList = this.props.events;
-    eventsList ? eventsList : eventsList.sort()
+    let eventsList = this.props.events;
+    const today = moment()
+    if(eventsList !== null && eventsList !== undefined) {
+        eventsList = eventsList.filter((e) => {
+                return moment(e.date).isAfter(today)
+              }).sort( (a, b) =>  moment(a.date) - moment(b.date))
+    }
+
     if(this.props.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
@@ -53,7 +60,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    watchEventAdded(dispatch)
+    //watchEventAdded(dispatch)
     return {
         onGetEvent: () => dispatch(getEvents()),
     };
