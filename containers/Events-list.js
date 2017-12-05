@@ -39,11 +39,11 @@ class EventsList extends React.Component {
       return (
         <FlatList
             data={eventsList}
+            keyExtractor={(item, index) => item.id}
             renderItem={({ item }) => (
               <EventsListItem
                 navigation={this.props.navigation}
                 event={item}
-                keyExtractor={item => item.id}
               />
             )}
         />
