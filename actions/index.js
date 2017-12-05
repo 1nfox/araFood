@@ -13,7 +13,22 @@ export const signInUser = ( email, password ) => (dispatch) => {
     dispatch({ type: SIGN_IN_REQUEST });
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
-        dispatch({ type: SIGN_IN_SUCCESS, payload: user });
+        firebase.database().ref('/users/').child(user.uid).once('value')
+          .then((data) => {
+            const obj = data.val()
+            const newUser = {
+              id: user.uid,
+              email: obj.email,
+              phone: obj.phone,
+              avatar: obj.avatar,
+              admin: obj.admin,
+              username: obj.username
+            }
+            dispatch({ type: SIGN_IN_SUCCESS, payload: newUser });
+          })
+          .catch( (error) => {
+              console.log(error)
+            })
     })
     .catch( (error) => {
         dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); 
