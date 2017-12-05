@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StatusBar, StyleSheet, Image, ActivityIn
 import moment from 'moment'
 
 import { connect } from 'react-redux';
-import { getEvents, watchEventAdded } from '../actions/firebase_event_handler';
+import { getEvents, watchEventAdded, watchEventRemoved } from '../actions/firebase_event_handler';
 
 import style from '../styles/Style'
 import EventsListItem from '../components/Events-list-item'
@@ -43,7 +43,7 @@ class EventsList extends React.Component {
               <EventsListItem
                 navigation={this.props.navigation}
                 event={item}
-                keyExtractor={item => item.key}
+                keyExtractor={item => item.id}
               />
             )}
         />
@@ -62,6 +62,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     watchEventAdded(dispatch)
+    watchEventRemoved(dispatch)
     return {
         onGetEvent: () => dispatch(getEvents()),
     };

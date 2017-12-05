@@ -48,9 +48,10 @@ export function watchEventAdded(dispatch) {
     dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_added', (snap) => {
         let newEvent = snap.val()
+        const newEventKey = snap.key
         firebase.database().ref('/events/'+snap.key).on('child_added', data => {
             if(data.key ==='subscribers') {
-                    newEvent = {...newEvent, subscribers : data.val()}
+                    newEvent = {...newEvent, subscribers: data.val(), id: newEventKey}
                     dispatch({ type: EVENT_ADDED, payload: newEvent });
             }
         })
@@ -61,10 +62,6 @@ export function watchEventAdded(dispatch) {
 export function watchEventRemoved(dispatch) {
     dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_removed', (snap) => {
-        dispatch({ type: EVENT_REMOVED, payload: snap.val() });
+        dispatch({ type: EVENT_REMOVED, payload: snap.key });
     })
-    .catch((error) => {
-        console.log(error);
-        dispatch({ type: EVENT_REQUEST_ERROR, payload: events });
-    });
 }

@@ -13,7 +13,8 @@ const reducer = (state = INITIAL_STATE, action) => {
         case 'EVENT_ADDED':
             return { ...state, events : [...state.events, action.payload]};
         case 'EVENT_REMOVED':
-            return { ...state, ...INITIAL_STATE, user: action.payload };
+            const index = state.events.findIndex( item => item.id === action.payload)
+            return { ...state, events : [...state.events.slice(0, index), ...state.events.slice(index + 1)] };
         case 'EVENT_REQUEST_END':
             return { ...state, loading: false };
         default:
