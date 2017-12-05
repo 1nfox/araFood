@@ -45,12 +45,17 @@ export function getEvents() {
 }
 
 export function watchEventAdded(dispatch) {
+    dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_added', (snap) => {
-        let newEvent = { [snap.key] : snap.val()}
-        dispatch({ type: EVENT_REQUEST_START });
-        dispatch({ type: EVENT_ADDED, payload: newEvent });
-        dispatch({ type: EVENT_REQUEST_END })
+        let newEvent = snap.val()
+        firebase.database().ref('/events/'+snap.key).on('child_added', data => {
+            if(data.key ==='subscribers') {
+                    newEvent = {...newEvent, subscribers : data.val()}
+                    dispatch({ type: EVENT_ADDED, payload: newEvent });
+            }
+        })
     })
+    dispatch({ type: EVENT_REQUEST_END })
 }
 
 export function watchEventRemoved(dispatch) {

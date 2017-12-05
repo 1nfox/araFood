@@ -25,8 +25,9 @@ class EventsList extends React.Component {
 
   render () {
     let eventsList = this.props.events;
+
     const today = moment()
-    if(eventsList !== null && eventsList !== undefined) {
+    if(eventsList.length > 0) {
         eventsList = eventsList.filter((e) => {
                 return moment(e.date).isAfter(today)
               }).sort( (a, b) =>  moment(a.date) - moment(b.date))
@@ -60,7 +61,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    //watchEventAdded(dispatch)
+    watchEventAdded(dispatch)
     return {
         onGetEvent: () => dispatch(getEvents()),
     };

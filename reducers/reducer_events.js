@@ -11,8 +11,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         case 'EVENT_REQUEST_ERROR':
             return { ...state, ...INITIAL_STATE, error: action.payload };
         case 'EVENT_ADDED':
-            let events = Object.assign({}, state.events, action.payload)
-            return { ...state, events};
+            return { ...state, events : [...state.events, action.payload]};
         case 'EVENT_REMOVED':
             return { ...state, ...INITIAL_STATE, user: action.payload };
         case 'EVENT_REQUEST_END':

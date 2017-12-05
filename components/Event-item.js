@@ -41,7 +41,7 @@ class EventItem extends React.Component {
 
   render () {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    var subscribersCount = Object.keys(this.state.event.subscribers).length;
+    var subscribersCount = 1/*Object.keys(this.state.event.subscribers).length;*/
     var width = Dimensions.get('window').width; //full width
     var height = Dimensions.get('window').height; //full height
     return (
