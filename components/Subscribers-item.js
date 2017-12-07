@@ -20,7 +20,8 @@ export default class Subscribers extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+      subscriberInfos: {}
     }
   }
 
@@ -48,7 +49,7 @@ export default class Subscribers extends React.Component {
             </View>
             <View style={{ width: width, paddingTop: 2}}>
               <Text>{ this.state.subscriberInfos.username }</Text>
-              <Text>{ this.props.subscriberList.comment }</Text>
+              <Text>{ this.props.subscriber.comment }</Text>
             </View>
           </View>
         )

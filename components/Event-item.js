@@ -32,21 +32,39 @@ class EventItem extends React.Component {
     } 
   }
 
-  onSubscribe() {
-    this.props.subscribe(this.props.user.id, this.props.id)
+  onSubscribe(userId, eventId, comment) {
+    this.props.subscribe(userId, eventId, comment)
   }
 
-  onUnsubscribe() {
-    this.props.unsubscribe(this.props.user.id, this.props.event.id)
+  onUnsubscribe(userId, eventId) {
+    this.props.unsubscribe(userId, eventId)
   }
 
   render () {
 
     let event = this.props.event;
-    let subscribersCount = 1/*Object.keys(this.state.event.subscribers).length;*/
+    let user = this.props.user;
+    let subscribersCount = event.subscribers.length;
     let width = Dimensions.get('window').width; //full width
     let height = Dimensions.get('window').height; //full height
-    //let isSubscriber = event.subscribers.find()
+    let isSubscriber = event.subscribers.findIndex( sub => sub.id == user.id)
+    let isSub = false
+    let subComponent
+
+    if(isSubscriber < 0) {
+        subComponent = (<TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, '')}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
+                <Text>
+                    Sub
+                </Text>
+        </TouchableHighlight>)
+    }else {
+        isSub = true
+        subComponent = (<TouchableHighlight onPress={() => {this.onUnsubscribe(user.id, event.id)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
+                            <Text>
+                                UnSub
+                            </Text>
+        </TouchableHighlight>)
+    }
 
 
     return (
@@ -67,9 +85,7 @@ class EventItem extends React.Component {
                 <Text style={{ height: 'auto', alignSelf:'center',fontSize:16,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 10, marginBottom: 10, marginLeft: 60 }}>
                   Participants: { subscribersCount }
                 </Text>
-                <TouchableHighlight onPress={() => {this.onSubscribe(this.props)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
-                  <Image source={require('./icons/subscribe.png')} style={{ width: 20, height: 20 }} />
-                </TouchableHighlight>
+               {subComponent}
               </View>
             
               <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row'}}>

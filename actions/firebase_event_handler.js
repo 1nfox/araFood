@@ -51,17 +51,15 @@ export function setCurrentEvent(eventId) {
     return firebase.database().ref('/events/'+eventId).once('value', snap => {
         let event = snap.val()
           let subscribers = []
-          if (eventsubscribers !== 'undefined') {
-            const subList = event[key].subscribers
+          if (event.subscribers !== 'undefined') {
+            const subList = event.subscribers
             for (let key in subList) {
               subscribers.push(subList[key])
             }
           }
         event.subscribers = subscribers
-        console.log('----------------')
-        console.log(event.subscribers)
-
-        dispatch({ type: CURRENT_EVENT_REQUEST_SUCCESS, payload: snap.val() })
+        event.id = snap.key
+        dispatch({ type: CURRENT_EVENT_REQUEST_SUCCESS, payload: event })
         //dispatch({ type: EVENT_REQUEST_END })
     })
     .catch((error) => {
@@ -95,31 +93,48 @@ export function watchEventRemoved(dispatch) {
 }
 
 
-export const subscribe = (userId, eventId) => (dispatch) => {
-    dispatch({ type: EVENT_REQUEST_START });
-    firebase.database().ref('/events/'+eventId).child('subscribers/'+userId).set({
-      id: userId,
-      comment: "test"
-    })
-    dispatch({ type: EVENT_REQUEST_END })
-};
+export function subscribe(userId, eventId, comment) {
+    return dispatch => {
+        firebase.database().ref('/events/'+eventId).child('subscribers/'+userId).set({
+          id: userId,
+          comment: comment
+        })
+    }
+}
+
+function getCurrentEventId() {
+    return (dispatch, getState) => {
+        return getState().currentEvent
+    };
+}
+
 
 
 export function unsubscribe(userId, eventId) {
   return dispatch => {
-    dispatch({ type: EVENT_REQUEST_START });
-    return firebase.database().ref('/events').once('value', snap => {
-      const events = []
-      firebase.database().ref('/events/' + eventId).child('subscribers/' + userId)
-        .remove()
-      dispatch({ type: EVENT_REQUEST_SUCCESS, payload: events })
-      dispatch({ type: EVENT_REQUEST_END })
-    })
-    .catch((error) => {
-      console.log(error);
-      dispatch({ type: EVENT_REQUEST_ERROR, payload: events });
-      dispatch({ type: EVENT_REQUEST_END })
-    });
+    firebase.database().ref('/events/' + eventId).child('subscribers/' + userId).remove()
   }
-  dispatch({ type: EVENT_REQUEST_END })
 };
+
+export function watchSubscriberAdded(dispatch) {
+    //dispatch({ type: EVENT_REQUEST_START });
+    console.log(getCurrentEventId())
+    firebase.database().ref('/events').on('child_added', (snap) => {
+        let newEvent = snap.val()
+        const newEventKey = snap.key
+        firebase.database().ref('/events/'+snap.key).on('child_added', data => {
+            if(data.key ==='subscribers') {
+                    newEvent = {...newEvent, subscribers: data.val(), id: newEventKey}
+                    dispatch({ type: EVENT_ADDED, payload: newEvent });
+            }
+        })
+    })
+    //dispatch({ type: EVENT_REQUEST_END })
+}
+
+export function watchSubscriberRemoved(dispatch) {
+    dispatch({ type: EVENT_REQUEST_START });
+    firebase.database().ref('/events').on('child_removed', (snap) => {
+        dispatch({ type: EVENT_REMOVED, payload: snap.key });
+    })
+}
