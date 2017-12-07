@@ -62,7 +62,6 @@ class Login extends Component {
 
       </View>;
 
-    // A simple UI with a toolbar, and content below it.
         return (
           <View style={styles.container}>
             <View style={ styles.img, { backgroundColor: '#333',justifyContent: 'center', alignItems: 'center', paddingTop:120 } }>

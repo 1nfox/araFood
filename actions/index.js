@@ -58,3 +58,4 @@ const authFailMessage = (errorCode) => {
       return 'Authentication failed.';
   }
 };
+

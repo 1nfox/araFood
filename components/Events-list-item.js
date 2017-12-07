@@ -30,20 +30,20 @@ export default class EventListItem extends React.Component{
   render () {
       return(
       <FadeInView delay={ this.props.index * 50}>
-      <TouchableHighlight onPress={() => this.viewEvent(this.props)}> 
-        <View style={[ style.flex,style.view, {backgroundColor: '#333'} ]} >
-          <View style={ style.flex }>
-            <Text style={{ marginLeft: 10, color: 'red' }}>{ this.props.event.date }</Text>        
+        <TouchableHighlight onPress={() => this.viewEvent(this.props)}> 
+          <View style={[ style.flex,style.view, {backgroundColor: '#333'} ]} >
+            <View style={ style.flex }>
+              <Text style={{ marginLeft: 10, color: 'red' }}>{ this.props.event.date }</Text>        
+            </View>
+            <Text style={ style.temp }>
+              { this.props.event.title }
+            </Text>
+            <View style={ style.flex }>
+              <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
+            </View>
           </View>
-          <Text style={ style.temp }>
-            { this.props.event.title }
-          </Text>
-          <View style={ style.flex }>
-            <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
-          </View>
-        </View>
-        </TouchableHighlight>
-      </FadeInView>
+          </TouchableHighlight>
+        </FadeInView>
       )
   }
 

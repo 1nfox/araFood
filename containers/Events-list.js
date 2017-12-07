@@ -25,14 +25,12 @@ class EventsList extends React.Component {
 
   render () {
     let eventsList = this.props.events;
-
     const today = moment()
     if(eventsList.length > 0) {
         eventsList = eventsList.filter((e) => {
                 return moment(e.date).isAfter(today)
               }).sort( (a, b) =>  moment(a.date) - moment(b.date))
     }
-
     if(this.props.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {

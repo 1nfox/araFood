@@ -40,7 +40,7 @@ export default class Subscribers extends React.Component {
     if(this.state.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
-      if (this.state.subscriberInfos !== undefined) {
+      if ((this.state.subscriberInfos !== undefined) || (this.state.subscriberInfos !== null)) {
         return (
           <View style={{ flex: 1, flexDirection: 'row', padding: 10, borderBottomWidth: 2, borderColor: '#FFF' }}>
             <View style={{ width: width/4 }}>
@@ -63,3 +63,4 @@ export default class Subscribers extends React.Component {
 
 
 }
+
