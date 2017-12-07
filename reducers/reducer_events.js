@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   events: [],
-  loading: false
+  loading: false,
+  current_event: {}
 };
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -8,6 +9,8 @@ const reducer = (state = INITIAL_STATE, action) => {
             return { ...state, loading: true };
         case 'EVENT_REQUEST_SUCCESS':
             return { ...state, events: action.payload};
+        case 'CURRENT_EVENT_REQUEST_SUCCESS':
+            return { ...state, current_event: action.payload};
         case 'EVENT_REQUEST_ERROR':
             return { ...state, ...INITIAL_STATE, error: action.payload };
         case 'EVENT_ADDED':

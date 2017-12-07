@@ -1,16 +1,16 @@
 import React from 'react'
 import globaleStyle from '../styles/Style'
-
+import { connect } from 'react-redux';
+import { setCurrentEvent } from '../actions/firebase_event_handler';
 
 import {  View, Text, StyleSheet, Image, Button, TouchableHighlight  } from 'react-native'
 import { StackNavigator } from 'react-navigation'
-
 
 import FadeInView from './animation/fadeInView'
 import EventsList from '../containers/Events-list'
 import EventItem from './Event-item'
 
-export default class EventListItem extends React.Component{
+class EventListItem extends React.Component{
 
   constructor (props) {
     super(props)
@@ -24,6 +24,7 @@ export default class EventListItem extends React.Component{
   }
 
   viewEvent (eventInfos) {
+    this.props.onSetCurrentEvent(eventInfos.event.id)
     this.props.navigation.navigate('Result', {event: eventInfos})
   }
 
@@ -89,3 +90,18 @@ const style = StyleSheet.create({
   }
 })
 
+const mapStateToProps = (state) => {
+    return {
+        events: state.events.events,
+        loading: state.events.loading
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSetCurrentEvent: (id) => {dispatch(setCurrentEvent(id))},
+    };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventListItem);

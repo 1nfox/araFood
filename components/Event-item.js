@@ -9,7 +9,7 @@ import { subscribe, unsubscribe } from '../actions/firebase_event_handler';
 
 import style from '../styles/Style'
 import styles from '../styles/loginStyle.js'
-import Subscribers from './Subscribers'
+import SubscribersList from '../containers/Subscribers-list'
 
 
 
@@ -28,46 +28,38 @@ class EventItem extends React.Component {
     super(props)
 
     this.state = {
-      event: this.props.navigation.state.params.event.event,
-      loading: true,
-      comment: "Commentaire"
+      loading: true
     } 
   }
 
   onSubscribe() {
-    this.props.subscribe(this.props.user.id, this.props.navigation.state.params.event.event.id)
+    this.props.subscribe(this.props.user.id, this.props.id)
   }
 
   onUnsubscribe() {
-    this.props.unsubscribe(this.props.user.id, this.props.navigation.state.params.event.event.id)
+    this.props.unsubscribe(this.props.user.id, this.props.event.id)
   }
 
   render () {
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-    var subscribersCount = 1/*Object.keys(this.state.event.subscribers).length;*/
-    var width = Dimensions.get('window').width; //full width
-    var height = Dimensions.get('window').height; //full height
-    let subscribers = this.props.navigation.state.params.event.event.subscribers
-    for (const key in subscribers){
-      if(subscribers[key].id ===  this.props.user.id){
-        console.log('déjà suscribe')
-      }else{
-        console.log('pas encore subscribe')
-      }
-      
-    }
-    console.log(this.state.event)
+
+    let event = this.props.event;
+    let subscribersCount = 1/*Object.keys(this.state.event.subscribers).length;*/
+    let width = Dimensions.get('window').width; //full width
+    let height = Dimensions.get('window').height; //full height
+    //let isSubscriber = event.subscribers.find()
+
+
     return (
       <ScrollView>
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignSelf: 'stretch' }}>
             
             <View style={{width: width, height: 300}} >
-                <Image source={{ uri: this.state.event.imageUrl }} style={{ width: width, height: 300 }} />    
+                <Image source={{ uri: event.imageUrl }} style={{ width: width, height: 300 }} />
                 <Text style={{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', height: 'auto', padding: 10, fontSize:16, color: '#FFF', marginTop: 10, marginLeft: 10 }}>
-                  {this.state.event.date.split(" ")[0].trim()}
+                  {event.date.split(" ")[0].trim()}
                 </Text>
                 <Text style={{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.6)', height: 'auto', padding: 10, fontSize:16, marginTop: 10, right: 10, color: '#D92719' }}>
-                  {this.state.event.date.split(" ")[1].trim()}
+                  {event.date.split(" ")[1].trim()}
                 </Text>
               </View>
 
@@ -82,18 +74,14 @@ class EventItem extends React.Component {
             
               <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row'}}>
                 <Text style={{ height: 'auto', alignSelf:'center',fontSize:16,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 10, marginBottom: 10, marginLeft: 20, padding: 10 }}>
-                  {this.state.event.description}
+                  {event.description}
                 </Text>
               </View>
 
               
 
               <View style={{width: width, height: 'auto',backgroundColor: '#dedede'}} usersList={ this.state.usersList }>
-                <ListView 
-                  enableEmptySections={true}
-                  dataSource={ds.cloneWithRows(this.state.event.subscribers) } 
-                  renderRow={(row, j, k) => <Subscribers subscriberList={row} index={k}/> }
-                />
+                <SubscribersList />
               </View>
 
         </View>
@@ -105,7 +93,8 @@ class EventItem extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.user.user,
+        event: state.events.current_event
     }
 };
 

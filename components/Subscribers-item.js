@@ -25,7 +25,7 @@ export default class Subscribers extends React.Component {
   }
 
   componentDidMount () {
-    const ref = firebase.database().ref('/users/' + this.props.subscriberList.id)
+    const ref = firebase.database().ref('/users/' + this.props.subscriber.id)
     ref.on('value', snapshot => {
       this.setState({
         subscriberInfos: snapshot.val(),
@@ -40,7 +40,7 @@ export default class Subscribers extends React.Component {
     if(this.state.loading){
       return <View style={{ flex: 1 }}><ActivityIndicator color={style.color} size="large" style={{ flex: 1 }}/></View>
     } else {
-      if ((this.state.subscriberInfos !== undefined) || (this.state.subscriberInfos !== null)) {
+      if (this.state.subscriberInfos !== undefined) {
         return (
           <View style={{ flex: 1, flexDirection: 'row', padding: 10, borderBottomWidth: 2, borderColor: '#FFF' }}>
             <View style={{ width: width/4 }}>
@@ -63,4 +63,3 @@ export default class Subscribers extends React.Component {
 
 
 }
-

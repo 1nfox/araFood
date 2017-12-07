@@ -4,6 +4,7 @@ export const EVENT_REQUEST_START = 'EVENT_REQUEST_START';
 export const EVENT_REQUEST_END = 'EVENT_REQUEST_END';
 export const EVENT_REQUEST_SUCCESS = 'EVENT_REQUEST_SUCCESS';
 export const EVENT_REQUEST_ERROR = 'EVENT_REQUEST_ERROR';
+export const CURRENT_EVENT_REQUEST_SUCCESS = 'CURRENT_EVENT_REQUEST_SUCCESS';
 
 export const EVENT_ADDED = 'EVENT_ADDED';
 export const EVENT_REMOVED = 'EVENT_REMOVED';
@@ -46,10 +47,28 @@ export function getEvents() {
 
 export function setCurrentEvent(eventId) {
   return dispatch => {
-    dispatch({ type: EVENT_REQUEST_START });
+    //dispatch({ type: EVENT_REQUEST_START });
     return firebase.database().ref('/events/'+eventId).once('value', snap => {
-      
+        let event = snap.val()
+          let subscribers = []
+          if (eventsubscribers !== 'undefined') {
+            const subList = event[key].subscribers
+            for (let key in subList) {
+              subscribers.push(subList[key])
+            }
+          }
+        event.subscribers = subscribers
+        console.log('----------------')
+        console.log(event.subscribers)
+
+        dispatch({ type: CURRENT_EVENT_REQUEST_SUCCESS, payload: snap.val() })
+        //dispatch({ type: EVENT_REQUEST_END })
     })
+    .catch((error) => {
+      console.log(error);
+      dispatch({ type: EVENT_REQUEST_ERROR, payload: events });
+      dispatch({ type: EVENT_REQUEST_END })
+    });
   }
 }
 
