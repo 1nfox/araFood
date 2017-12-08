@@ -104,7 +104,7 @@ export function subscribe(userId, eventId, comment) {
 
 function getCurrentEventId() {
     return (dispatch, getState) => {
-        return getState().currentEvent
+        return getState().currentEvent.id
     };
 }
 

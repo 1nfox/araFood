@@ -1,4 +1,5 @@
 import firebase from '../firebase';
+import { AsyncStorage } from 'react-native'
 
 export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST';
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
@@ -11,6 +12,7 @@ export const FETCH_FINISH = 'FETCH_FINISH'
 
 export const signInUser = ( email, password ) => (dispatch) => {
     dispatch({ type: SIGN_IN_REQUEST });
+    console.log('ici')
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
         firebase.database().ref('/users/').child(user.uid).once('value')
@@ -25,6 +27,7 @@ export const signInUser = ( email, password ) => (dispatch) => {
               username: obj.username
             }
             dispatch({ type: SIGN_IN_SUCCESS, payload: newUser });
+            AsyncStorage.setItem('login', email+'/'+password);
           })
           .catch( (error) => {
               console.log(error)
