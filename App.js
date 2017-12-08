@@ -12,7 +12,7 @@ const loggerMiddleware = createLogger();
 const store = createStore(
     rootReducer,
     applyMiddleware(
-        //loggerMiddleware,
+        loggerMiddleware,
         Thunk
     )
 );
@@ -22,18 +22,6 @@ console.ignoredYellowBox = [
 ]
 
 export default class App extends React.Component {
-
-  /*componentdidMount() {
-      firebase.auth().onAuthStateChanged((user) => {
-        this.setState({ loaded: true });
-        if (user) {
-          store.dispatch({ type: AUTO_SIGN_IN, payload: user });
-        } else {
-          store.dispatch({ type: SET_INITIAL_STATE });
-        }
-      });
-  }*/
-
 
   render() {
       return (

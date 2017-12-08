@@ -8,6 +8,7 @@ import {
   ToolbarAndroid,
   ActivityIndicator,
   StatusBar,
+  AsyncStorage
 } from 'react-native';
 
 import styles from '../styles/loginStyle.js'
@@ -15,8 +16,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { signInUser } from '../actions'
-
-
 
 class Login extends Component {
 
@@ -26,7 +25,6 @@ class Login extends Component {
 
     constructor(props){
         super(props);
-        // We have the same props as in our signup.js file and they serve the same purposes.
         this.state = {
           email: 'rolivier@groupe-ara.com',
           password: 'roliara',
@@ -41,8 +39,6 @@ class Login extends Component {
 
   render() {
     const {user} = this.props
-    // The content of the screen should be inputs for a username, password and submit button.
-    // If we are loading then we display an ActivityIndicator.
     const content = user.loading ? <ActivityIndicator size="large"/> :
       <View>
         <TextInput
