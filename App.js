@@ -12,16 +12,19 @@ const loggerMiddleware = createLogger();
 const store = createStore(
     rootReducer,
     applyMiddleware(
-        loggerMiddleware,
+        //loggerMiddleware,
         Thunk
     )
 );
 
-console.ignoredYellowBox = [
-'Setting a timer'
-]
-
 export default class App extends React.Component {
+
+    constructor() {
+        super();
+        console.ignoredYellowBox = [
+            'Setting a timer'
+        ];
+    }
 
   render() {
       return (

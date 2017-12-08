@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
-import signInUser from '../actions'
+import { signInUser } from '../actions'
 
 import { View, Text, StatusBar, StyleSheet, AsyncStorage } from 'react-native'
 import { TabNavigator } from 'react-navigation'
@@ -40,14 +40,16 @@ class App extends Component {
   componentDidMount() {
       AsyncStorage.getItem('login')
         .then((value) => {
-            const login = value.split('/')
-            const email = login[0]
-            const password = login[1]
-            console.log('******')
-            console.log(this.props)
-            this.props.onSignInUser(email, password)
+            if(value!= null) {
+                const login = value.split('/')
+                const email = login[0]
+                const password = login[1]
+                this.props.onSignInUser(email, password)
+            }
         })
-
+        .catch( (error) => {
+          console.log(error)
+        })
   }
 
   render() {
@@ -63,11 +65,9 @@ const mapStateToProps = (state) => {
         user: state.user
     }
 }
-
 const mapDispatchToProps = (dispatch) => {
     return {
         onSignInUser: (email, password) => dispatch(signInUser(email, password)),
     };
 };
-
-export default connect(mapStateToProps, mapDispatchToProps )(App)
+export default connect(mapStateToProps, mapDispatchToProps )(App);

@@ -12,7 +12,6 @@ export const FETCH_FINISH = 'FETCH_FINISH'
 
 export const signInUser = ( email, password ) => (dispatch) => {
     dispatch({ type: SIGN_IN_REQUEST });
-    console.log('ici')
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
         firebase.database().ref('/users/').child(user.uid).once('value')
@@ -40,6 +39,7 @@ export const signInUser = ( email, password ) => (dispatch) => {
 
 export const signOutUser = () => (dispatch) => {
     firebase.auth().signOut();
+    AsyncStorage.removeItem('login')
     dispatch({ type: SET_INITIAL_STATE });
 };
 
