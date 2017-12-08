@@ -2,6 +2,7 @@ import {
     AppRegistry,
     View,
     Text,
+    TouchableOpacity,
     TextInput,
     StyleSheet,
     TouchableHighlight,
@@ -17,6 +18,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { onAddEvent } from '../actions/firebase_event_handler';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import styles from '../styles/loginStyle'
 
@@ -36,7 +38,8 @@ class AddEvent extends React.Component {
       heure: '',
       description: '',
       image: '',
-      loading: false
+      loading: false,
+      isDateTimePickerVisible: false,
     }
   }
 
@@ -44,6 +47,15 @@ class AddEvent extends React.Component {
     Keyboard.dismiss(),
     this.props.onAddEvent(this.state.name, this.state.dte, this.state.heure, this.state.description, this.state.image, this.props.user.user.id)
   }
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    console.log('A date has been picked: ', date);
+    this._hideDateTimePicker();
+  };
 
   render () {
     const { navigate } = this.props.navigation;
@@ -53,6 +65,17 @@ class AddEvent extends React.Component {
           style={styles.textInput}
           onChangeText={(text) => this.setState({name: text})}
           placeholder={"Nom de l'évenement"} />
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={this._showDateTimePicker}>
+                <Text>Show DatePicker</Text>
+              </TouchableOpacity>
+              <DateTimePicker
+                mode={ 'datetime' }
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this._handleDatePicked}
+                onCancel={this._hideDateTimePicker}
+              />
+            </View>
         <TextInput
           style={styles.textInput}
           onChangeText={(text) => this.setState({date: text})}
