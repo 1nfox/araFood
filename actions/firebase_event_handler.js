@@ -70,6 +70,25 @@ export function setCurrentEvent(eventId) {
   }
 }
 
+export function onAddEvent(title, date, heure, description, image, userId) {
+  return dispatch => {
+    dispatch({ type: EVENT_REQUEST_START });
+    const Event = {
+        title: title,
+        description: description,
+        imageUrl: 'http://www.fredzone.org/wp-content/uploads/2014/11/daft1_2.gif',
+        date: '2017-12-09 12:12',
+        creatorId: userId,
+        subscribers: []
+    }
+    firebase.database().ref('events').push(Event)
+    .then((data) => {
+      dispatch(subscribe(userId, data.key, ''))
+    })
+    dispatch({ type: EVENT_REQUEST_END })
+  }
+}
+
 export function watchEventAdded(dispatch) {
     dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_added', (snap) => {
@@ -94,11 +113,15 @@ export function watchEventRemoved(dispatch) {
 
 
 export function subscribe(userId, eventId, comment) {
+  console.log(userId)
+  console.log(eventId)
+  console.log(comment)
     return dispatch => {
         firebase.database().ref('/events/'+eventId).child('subscribers/'+userId).set({
           id: userId,
           comment: comment
         })
+        console.log('***')
     }
 }
 

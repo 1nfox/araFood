@@ -9,12 +9,14 @@ import { TabNavigator } from 'react-navigation'
 import Profile from './Profile'
 import EventsListStackNavigator from '../components/Events-list-stack-navigator'
 import Login from './Login'
+import AddEvent from './AddEvent'
 
 import style from '../styles/Style'
 
 const Tabs = TabNavigator({
   EventsList: { screen: EventsListStackNavigator },
   Profile: { screen: Profile },
+  AddEvent: { screen: AddEvent },
 
 }, {
   tabBarPosition: 'bottom',
