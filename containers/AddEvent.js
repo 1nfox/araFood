@@ -19,6 +19,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { onAddEvent } from '../actions/firebase_event_handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment'
+
 
 import styles from '../styles/loginStyle'
 
@@ -34,8 +36,7 @@ class AddEvent extends React.Component {
     super(props)
     this.state = {
       name: '',
-      date: '',
-      heure: '',
+      date: "Date de l'évenement",
       description: '',
       image: '',
       loading: false,
@@ -44,16 +45,24 @@ class AddEvent extends React.Component {
   }
 
   onAddEvent(){
+    if(!this.state.image){
+      image = 'https://firebasestorage.googleapis.com/v0/b/ara-food.appspot.com/o/Default%2Fplaceholder.jpg?alt=media&token=8bfe324b-c282-484c-bc87-9ee04c6dca92'
+    }else{
+      image = this.state.image
+    }
     Keyboard.dismiss(),
-    this.props.onAddEvent(this.state.name, this.state.dte, this.state.heure, this.state.description, this.state.image, this.props.user.user.id)
+    this.props.onAddEvent(this.state.name, this.state.date, this.state.description, image, this.props.user.user.id)
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
-  _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
+  _handleDatePicked = (dateNonSplit) => {
+    goodDay = moment(dateNonSplit).format("YYYY-M-DD HH:mm")
+    this.setState({ 
+      date: goodDay
+    })
     this._hideDateTimePicker();
   };
 
@@ -62,37 +71,30 @@ class AddEvent extends React.Component {
     const content = 
       <View>
         <TextInput
-          style={styles.textInput}
+          style={textStyle.TextStyle}
           onChangeText={(text) => this.setState({name: text})}
-          placeholder={"Nom de l'évenement"} />
-            <View style={{ flex: 1 }}>
-              <TouchableOpacity onPress={this._showDateTimePicker}>
-                <Text>Show DatePicker</Text>
-              </TouchableOpacity>
-              <DateTimePicker
-                mode={ 'datetime' }
-                isVisible={this.state.isDateTimePickerVisible}
-                onConfirm={this._handleDatePicked}
-                onCancel={this._hideDateTimePicker}
-              />
-            </View>
+          placeholder={"Nom de l'évenement"} placeholderTextColor="#333" />
+        <View>
+          <TouchableOpacity>
+            <Text style={textStyle.TextStyle}  onPress={this._showDateTimePicker} >{ this.state.date }</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            mode={ 'datetime' }
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+          />
+        </View>
         <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({date: text})}
-          placeholder={"Date"} />
-        <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({heure: text})}
-          placeholder={"Heure"} />
-        <TextInput
-          style={ styles.textInput, {height: 50}}
+          style={ textStyle.TextStyle}
           onChangeText={(text) => this.setState({description: text})}
           placeholder={"Description de l'évenement"}
+          placeholderTextColor="#333"
         />
         <TextInput
-          style={styles.textInput}
+          style={textStyle.TextStyle}
           onChangeText={(text) => this.setState({image: text})}
-          placeholder={"Image"} />
+          placeholder={"Image"} placeholderTextColor="#333" />
         <TouchableHighlight style={styles.primaryButton} onPress={() => {this.onAddEvent()}}>
           <Text style={styles.primaryButtonText}>Créer</Text>
         </TouchableHighlight>
@@ -123,3 +125,18 @@ export default connect(mapStateToProps, {
 })(AddEvent);
 
 AppRegistry.registerComponent('AddEvent', () => AddEvent);
+
+
+const textStyle = StyleSheet.create({
+
+  TextStyle: {
+    backgroundColor: '#dedede',
+    color: '#333',
+    textAlign: 'center',
+    padding: 10, 
+    margin: 10,
+    width: 200,
+    borderBottomWidth: 0
+  }
+
+});

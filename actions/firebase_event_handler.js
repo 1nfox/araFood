@@ -70,14 +70,14 @@ export function setCurrentEvent(eventId) {
   }
 }
 
-export function onAddEvent(title, date, heure, description, image, userId) {
+export function onAddEvent(title, date, description, image, userId) {
   return dispatch => {
     dispatch({ type: EVENT_REQUEST_START });
     const Event = {
         title: title,
         description: description,
-        imageUrl: 'http://www.fredzone.org/wp-content/uploads/2014/11/daft1_2.gif',
-        date: '2017-12-09 12:12',
+        imageUrl: image,
+        date: date,
         creatorId: userId,
         subscribers: []
     }
