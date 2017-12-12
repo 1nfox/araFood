@@ -14,6 +14,8 @@ import {
 } from 'react-native'
 
 
+
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
@@ -21,7 +23,7 @@ import { onAddEvent } from '../actions/firebase_event_handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment'
 
-
+import { ImagePicker } from 'expo';
 import styles from '../styles/loginStyle'
 
 class AddEvent extends React.Component {
@@ -45,12 +47,13 @@ class AddEvent extends React.Component {
   }
 
   onAddEvent(){
+
     if(!this.state.image){
       image = 'https://firebasestorage.googleapis.com/v0/b/ara-food.appspot.com/o/Default%2Fplaceholder.jpg?alt=media&token=8bfe324b-c282-484c-bc87-9ee04c6dca92'
     }else{
       image = this.state.image
     }
-    Keyboard.dismiss(),
+    Keyboard.dismiss()
     this.props.onAddEvent(this.state.name, this.state.date, this.state.description, image, this.props.user.user.id)
   }
 
@@ -64,6 +67,18 @@ class AddEvent extends React.Component {
       date: goodDay
     })
     this._hideDateTimePicker();
+  };
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+    console.log(result)
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
   };
 
   render () {
@@ -91,10 +106,12 @@ class AddEvent extends React.Component {
           placeholder={"Description de l'évenement"}
           placeholderTextColor="#333"
         />
-        <TextInput
+        
+        <Button
           style={textStyle.TextStyle}
-          onChangeText={(text) => this.setState({image: text})}
-          placeholder={"Image"} placeholderTextColor="#333" />
+          title="Image"
+          onPress={this._pickImage} />
+
         <TouchableHighlight style={styles.primaryButton} onPress={() => {this.onAddEvent()}}>
           <Text style={styles.primaryButtonText}>Créer</Text>
         </TouchableHighlight>
