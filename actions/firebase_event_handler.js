@@ -96,8 +96,8 @@ export function watchEventAdded(dispatch) {
         const newEventKey = snap.key
         firebase.database().ref('/events/'+snap.key).on('child_added', data => {
             if(data.key ==='subscribers') {
-                    newEvent = {...newEvent, subscribers: data.val(), id: newEventKey}
-                    dispatch({ type: EVENT_ADDED, payload: newEvent });
+                newEvent = {...newEvent, subscribers: data.val(), id: newEventKey}
+                dispatch({ type: EVENT_ADDED, payload: newEvent });
             }
         })
     })

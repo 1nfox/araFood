@@ -39,7 +39,7 @@ export default {
   },
 
   headerTitle: {
-    color: '#FFF'
+    color: '#FFF',
   },
 
 

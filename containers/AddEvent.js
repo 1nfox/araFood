@@ -40,14 +40,14 @@ class AddEvent extends React.Component {
       name: '',
       date: "Date de l'évenement",
       description: '',
-      image: '',
+      image: null,
       loading: false,
       isDateTimePickerVisible: false,
     }
   }
 
   onAddEvent(){
-
+    //Rajouter un controle des données reçu
     if(!this.state.image){
       image = 'https://firebasestorage.googleapis.com/v0/b/ara-food.appspot.com/o/Default%2Fplaceholder.jpg?alt=media&token=8bfe324b-c282-484c-bc87-9ee04c6dca92'
     }else{
@@ -71,17 +71,18 @@ class AddEvent extends React.Component {
 
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+      aspect: [16, 9],
+      base64: true,
+      exif: true
     });
-    console.log(result)
-
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: result.base64 });
     }
   };
 
   render () {
+    let image = this.state.image;
     const { navigate } = this.props.navigation;
     const content = 
       <View>
@@ -89,6 +90,7 @@ class AddEvent extends React.Component {
           style={textStyle.TextStyle}
           onChangeText={(text) => this.setState({name: text})}
           placeholder={"Nom de l'évenement"} placeholderTextColor="#333" />
+
         <View>
           <TouchableOpacity>
             <Text style={textStyle.TextStyle}  onPress={this._showDateTimePicker} >{ this.state.date }</Text>
@@ -100,17 +102,22 @@ class AddEvent extends React.Component {
             onCancel={this._hideDateTimePicker}
           />
         </View>
+
         <TextInput
           style={ textStyle.TextStyle}
           onChangeText={(text) => this.setState({description: text})}
           placeholder={"Description de l'évenement"}
           placeholderTextColor="#333"
         />
-        
-        <Button
-          style={textStyle.TextStyle}
-          title="Image"
-          onPress={this._pickImage} />
+
+        <TouchableOpacity onPress={this._pickImage}>
+          <View style={{justifyContent: 'center', alignItems: 'center',}}>
+            { !image &&
+            <Text style={textStyle.TextStyle}>Image</Text>}
+            { image &&
+            <Image source={{ uri: 'data:image/jpeg;base64,'+image }} style={{ width: 200, height: 200 }} />}
+          </View>
+        </TouchableOpacity>
 
         <TouchableHighlight style={styles.primaryButton} onPress={() => {this.onAddEvent()}}>
           <Text style={styles.primaryButtonText}>Créer</Text>
