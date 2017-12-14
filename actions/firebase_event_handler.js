@@ -114,9 +114,6 @@ export function watchEventRemoved(dispatch) {
 
 
 export function subscribe(userId, eventId, comment) {
-  console.log(userId)
-  console.log(eventId)
-  console.log(comment)
     return dispatch => {
         firebase.database().ref('/events/'+eventId).child('subscribers/'+userId).set({
           id: userId,
@@ -139,9 +136,7 @@ export function unsubscribe(userId, eventId) {
   }
 };
 
-export function watchSubscriberAdded(dispatch) {
-    //dispatch({ type: EVENT_REQUEST_START });
-    console.log(getCurrentEventId())
+/*export function watchSubscriberAdded(dispatch) {
     firebase.database().ref('/events').on('child_added', (snap) => {
         let newEvent = snap.val()
         const newEventKey = snap.key
@@ -152,12 +147,11 @@ export function watchSubscriberAdded(dispatch) {
             }
         })
     })
-    //dispatch({ type: EVENT_REQUEST_END })
-}
+}*/
 
-export function watchSubscriberRemoved(dispatch) {
+/*export function watchSubscriberRemoved(dispatch) {
     dispatch({ type: EVENT_REQUEST_START });
     firebase.database().ref('/events').on('child_removed', (snap) => {
         dispatch({ type: EVENT_REMOVED, payload: snap.key });
     })
-}
+}*/

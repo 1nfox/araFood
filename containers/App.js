@@ -9,7 +9,7 @@ import { TabNavigator } from 'react-navigation'
 import Profile from './Profile'
 import EventsListStackNavigator from '../components/Events-list-stack-navigator'
 import Login from './Login'
-import AddEvent from './AddEvent'
+import AddEvent from './Add-event'
 
 import style from '../styles/Style'
 

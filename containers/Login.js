@@ -7,8 +7,11 @@ import {
   TouchableHighlight,
   ToolbarAndroid,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Keyboard,
   StatusBar,
-  AsyncStorage
+  AsyncStorage,
+  Animated
 } from 'react-native';
 
 import styles from '../styles/loginStyle.js'
@@ -16,6 +19,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { signInUser } from '../actions'
+
+import logo from '../components/icons/logo-ara.png';
 
 class Login extends Component {
 
@@ -26,15 +31,39 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
-          email: 'rolivier@groupe-ara.com',
-          password: 'roliara',
-          loading: false
+          email: 'jbelmont@groupe-ara.com',
+          password: 'jbelara',
+          loading: false,
+          imageHeight : new Animated.Value(150)
         }
     }
 
     onButtonPress() {
         this.props.signInUser(this.state.email, this.state.password)
     }
+
+      componentWillMount () {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+      }
+
+      componentWillUnmount() {
+        this.keyboardWillShowSub.remove();
+        this.keyboardWillHideSub.remove();
+    }
+
+
+      keyboardDidShow = (event) => {
+        Animated.timing(this.state.imageHeight, {
+          toValue: 80,
+        }).start();
+      };
+
+      keyboardDidHide = (event) => {
+        Animated.timing(this.state.imageHeight, {
+          toValue: 150,
+        }).start();
+    };
 
 
   render() {
@@ -59,14 +88,12 @@ class Login extends Component {
       </View>;
 
         return (
-          <View style={styles.container}>
-            <View style={ styles.img, { backgroundColor: '#333',justifyContent: 'center', alignItems: 'center', paddingTop:120 } }>
-              <Image source={require('../components/icons/logo-ara.png')} style={{ width: 150, height: 150 }}/>
-            </View>
-            <View style={styles.body}>
-              {content}
-            </View>
-          </View>
+
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <Animated.Image source={logo} style={[styles.logo, { height: this.state.imageHeight }]} />
+                {content}
+                <View style={{ height: 60 }} />
+            </KeyboardAvoidingView>
         );
   }
 
