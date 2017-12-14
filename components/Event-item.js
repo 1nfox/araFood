@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { AppRegistry, View, Text, StyleSheet, Image, Dimensions, ListView, ScrollView, TouchableHighlight } from 'react-native'
+import { AppRegistry, View, Text, TextInput, StyleSheet, Image, Dimensions, ListView, ScrollView, TouchableHighlight, KeyboardAvoidingView } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import { connect } from 'react-redux';
@@ -28,7 +28,8 @@ class EventItem extends React.Component {
     super(props)
 
     this.state = {
-      loading: true
+      loading: true, 
+      comment: ''
     } 
   }
 
@@ -52,7 +53,7 @@ class EventItem extends React.Component {
     let subComponent
 
     if(isSubscriber < 0) {
-        subComponent = (<TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, '')}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
+        subComponent = (<TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
                 <Text>
                     Sub
                 </Text>
@@ -68,7 +69,7 @@ class EventItem extends React.Component {
 
 
     return (
-      <ScrollView>
+
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignSelf: 'stretch' }}>
             
             <View style={{width: width, height: 300}} >
@@ -81,12 +82,23 @@ class EventItem extends React.Component {
                 </Text>
               </View>
 
-              <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row'}}>
-                <Text style={{ height: 'auto', alignSelf:'center',fontSize:16,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 10, marginBottom: 10, marginLeft: 60 }}>
+              <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{padding: 10, color: '#FFF'}}>
                   Participants: { subscribersCount }
                 </Text>
-               {subComponent}
               </View>
+              
+              
+              <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',}}>
+                <TextInput
+                  style={{ width: 200, textAlign: 'center', padding: 5 }}
+                  onChangeText={(text) => this.setState({comment: text})}
+                  placeholder={"Commentaire"}
+                  placeholderTextColor="#FFF"
+                />
+                {subComponent}
+              </View>
+
             
               <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row'}}>
                 <Text style={{ height: 'auto', alignSelf:'center',fontSize:16,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 10, marginBottom: 10, marginLeft: 20, padding: 10 }}>
@@ -94,14 +106,12 @@ class EventItem extends React.Component {
                 </Text>
               </View>
 
-              
-
               <View style={{width: width, height: 'auto',backgroundColor: '#dedede'}} usersList={ this.state.usersList }>
                 <SubscribersList />
               </View>
 
         </View>
-      </ScrollView>
+
     )
   }
 }

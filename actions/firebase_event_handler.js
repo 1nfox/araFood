@@ -71,6 +71,7 @@ export function setCurrentEvent(eventId) {
 }
 
 export function onAddEvent(title, date, description, image, userId) {
+  console.log(image)
   return dispatch => {
     dispatch({ type: EVENT_REQUEST_START });
     const Event = {
@@ -121,7 +122,6 @@ export function subscribe(userId, eventId, comment) {
           id: userId,
           comment: comment
         })
-        console.log('***')
     }
 }
 

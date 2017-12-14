@@ -54,7 +54,7 @@ class AddEvent extends React.Component {
       image = this.state.image
     }
     Keyboard.dismiss()
-    this.props.onAddEvent(this.state.name, this.state.date, this.state.description, image, this.props.user.user.id)
+    this.props.onAddEvent(this.state.name, this.state.date, this.state.description, 'data:image/jpeg;base64,'+image, this.props.user.user.id)
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
