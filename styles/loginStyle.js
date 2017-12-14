@@ -2,15 +2,18 @@ const red = '#D92719'
 
 export default {
   container: {
-    alignItems: 'stretch',
-    flex: 1,
-  },
-  body: {
-    flex: 9,
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center',
     backgroundColor: '#333',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 50
+  },
+  logo: {
+    height: 150,
+    resizeMode: 'contain',
+    marginBottom: 20,
+    padding:10,
+    marginTop:20
   },
   toolbar: {
     backgroundColor: red,

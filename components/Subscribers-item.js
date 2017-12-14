@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Dimensions, Linking, TouchableHighlight } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import style from '../styles/Style'
@@ -21,18 +21,26 @@ export default class Subscribers extends React.Component {
     super(props)
     this.state = {
       loading: true,
-      subscriberInfos: {}
+      subscriberInfos: {username: '',
+                        comment: '',
+                        avatar: ''}
     }
   }
 
   componentDidMount () {
     const ref = firebase.database().ref('/users/' + this.props.subscriber.id)
-    ref.on('value', snapshot => {
+    ref.once('value', snapshot => {
       this.setState({
         subscriberInfos: snapshot.val(),
         loading: false
       })
     })
+  }
+
+  mailToSub (mail) {
+      Linking.openURL( 'mailto:'+mail);
+      console.log(mail)
+      //Linking.openURL( 'tel:'+this.state.subscriberInfos.phone);
   }
 
   render () {
@@ -45,7 +53,16 @@ export default class Subscribers extends React.Component {
         return (
           <View style={{ flex: 1, flexDirection: 'row', padding: 10, borderBottomWidth: 2, borderColor: '#FFF' }}>
             <View style={{ width: width/4 }}>
-              <Image source={{ uri: this.state.subscriberInfos.avatar }} style={{ width: 50, height: 50 }} />
+            <TouchableHighlight onPress={() => this.mailToSub(this.state.subscriberInfos.email)}>
+              <Image source={{ uri: this.state.subscriberInfos.avatar }} style={{ borderWidth:1,
+                                                                                   borderColor:'rgba(0,0,0,0.2)',
+                                                                                   alignItems:'center',
+                                                                                   justifyContent:'center',
+                                                                                   width:50,
+                                                                                   height:50,
+                                                                                   borderRadius:50,
+                                                                                 }} />
+             </TouchableHighlight>
             </View>
             <View style={{ width: width, paddingTop: 2}}>
               <Text>{ this.state.subscriberInfos.username }</Text>
