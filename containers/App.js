@@ -4,11 +4,12 @@ import { bindActionCreators} from 'redux'
 import { signInUser } from '../actions'
 
 import { View, Text, StatusBar, StyleSheet, AsyncStorage } from 'react-native'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 
 import Profile from './Profile'
 import EventsListStackNavigator from '../components/Events-list-stack-navigator'
 import Login from './Login'
+import SignIn from './Sign-in'
 import AddEvent from './Add-event'
 
 import style from '../styles/Style'
@@ -35,6 +36,17 @@ const Tabs = TabNavigator({
   },
 })
 
+const navigationOptions = {
+  headerStyle: style.header,
+  headerTitleStyle: style.headerTitle
+}
+
+const Home = StackNavigator({
+  Login: { screen: Login, navigationOptions},
+  SignIn: { screen: SignIn, navigationOptions },
+});
+
+
 class App extends Component {
 
   componentDidMount() {
@@ -55,7 +67,7 @@ class App extends Component {
   render() {
     const {user} = this.props
       return (
-          user.user ?  <Tabs /> :  <Login />
+          user.user ?  <Tabs /> :  <Home />
       );
   }
 }

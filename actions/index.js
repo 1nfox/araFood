@@ -10,7 +10,7 @@ export const FETCH_ALL_EVENTS = 'FETCH_ALL_EVENT';
 export const FETCH_IN_REQUEST = 'FETCH_IN_REQUEST'
 export const FETCH_FINISH = 'FETCH_FINISH'
 
-export const signInUser = ( email, password ) => (dispatch) => {
+export const loginUser = ( email, password ) => (dispatch) => {
     dispatch({ type: SIGN_IN_REQUEST });
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((user) => {
@@ -37,10 +37,14 @@ export const signInUser = ( email, password ) => (dispatch) => {
     });
 };
 
-export const signOutUser = () => (dispatch) => {
+export const logoutUser = () => (dispatch) => {
     firebase.auth().signOut();
     AsyncStorage.removeItem('login')
     dispatch({ type: SET_INITIAL_STATE });
+};
+
+export const signInUser = () => (dispatch) => {
+
 };
 
 const authFailMessage = (errorCode) => {
