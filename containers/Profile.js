@@ -14,7 +14,7 @@ import {
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
-import { signOutUser } from '../actions'
+import { logoutUser } from '../actions'
 
 import styles from '../styles/loginStyle'
 
@@ -31,7 +31,7 @@ class Profile extends React.Component {
   }
 
   logout() {
-    this.props.signOutUser()
+    this.props.logoutUser()
   }
 
 
@@ -84,7 +84,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  signOutUser
+  logoutUser
 })(Profile);
 
 AppRegistry.registerComponent('Profile', () => Profile);

@@ -11,21 +11,22 @@ import {
   Keyboard,
   StatusBar,
   AsyncStorage,
-  Animated
+  Animated,
+  Button
 } from 'react-native';
 
 import styles from '../styles/loginStyle.js'
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
-import { signInUser } from '../actions'
+import { loginUser } from '../actions'
 
 import logo from '../components/icons/logo-ara.png';
 
 class Login extends Component {
 
     static navigationOptions = {
-      title: 'AraFood - Connexion',
+      title: 'Connexion',
     }
 
     constructor(props){
@@ -39,7 +40,7 @@ class Login extends Component {
     }
 
     onButtonPress() {
-        this.props.signInUser(this.state.email, this.state.password)
+        this.props.loginUser(this.state.email, this.state.password)
     }
 
       componentWillMount () {
@@ -68,6 +69,7 @@ class Login extends Component {
 
   render() {
     const {user} = this.props
+    const { navigate } = this.props.navigation
     const content = user.loading ? <ActivityIndicator size="large"/> :
       <View>
         <TextInput
@@ -84,7 +86,12 @@ class Login extends Component {
         <TouchableHighlight onPress={() => this.onButtonPress()} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>Login</Text>
         </TouchableHighlight>
-
+        <Button
+            title="Sign IN"
+            onPress={() =>
+              navigate('SignIn')
+            }
+        />
       </View>;
 
         return (
@@ -106,7 +113,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  signInUser
+  loginUser
 })(Login);
 
 AppRegistry.registerComponent('Login', () => Login);
