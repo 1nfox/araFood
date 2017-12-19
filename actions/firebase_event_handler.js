@@ -128,12 +128,16 @@ function getCurrentEventId() {
     };
 }
 
-
-
 export function unsubscribe(userId, eventId) {
-  return dispatch => {
-    firebase.database().ref('/events/' + eventId).child('subscribers/' + userId).remove()
-  }
+    return dispatch => {
+        firebase.database().ref('/events/' + eventId).child('subscribers/' + userId).remove()
+    }
+};
+
+export function updateComment(userId, eventId, comment) {
+    return dispatch => {
+        firebase.database().ref('/events/' + eventId).child('subscribers/' + userId).update({comment: comment })
+    }
 };
 
 /*export function watchSubscriberAdded(dispatch) {

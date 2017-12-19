@@ -4,7 +4,7 @@ import { AppRegistry, View, Text, TextInput, StyleSheet, Image, Dimensions, List
 import { TabNavigator } from 'react-navigation'
 
 import { connect } from 'react-redux';
-import { subscribe, unsubscribe } from '../actions/firebase_event_handler';
+import { subscribe, unsubscribe, updateComment } from '../actions/firebase_event_handler';
 
 import Collapsible from 'react-native-collapsible';
 
@@ -40,15 +40,26 @@ class EventItem extends React.Component {
         this.props.unsubscribe(userId, eventId)
     }
 
+    onUpdateComment(userId, eventId, comment) {
+        this.props.updateComment(userId, eventId, comment)
+    }
+
     _toggleExpanded = () => {
         this.setState({ collapsed: !this.state.collapsed });
     }
 
+    componentWillMount () {
+        const sub = this.props.event.subscribers.find( sub => sub.id == this.props.user.id)
+        if (sub) {
+            this.setState({comment: sub.comment})
+        }
+    }
+
     render () {
 
-        let event = this.props.event;
-        let user = this.props.user;
-        let subscribersCount = event.subscribers.length;
+        let event = this.props.event
+        let user = this.props.user
+        let subscribersCount = event.subscribers.length
         let width = Dimensions.get('window').width; //full width
         let height = Dimensions.get('window').height; //full height
         let isSubscriber = event.subscribers.findIndex( sub => sub.id == user.id)
@@ -56,18 +67,44 @@ class EventItem extends React.Component {
         let subComponent
 
         if(isSubscriber < 0) {
-            subComponent = (<TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
-                    <Text>
-                        Sub
-                    </Text>
-            </TouchableHighlight>)
+            subComponent = (
+                <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
+                    <TextInput
+                      style={{ width: 200, textAlign: 'center', padding: 5, color: '#FFFFFF' }}
+                      onChangeText={(text) => this.setState({comment: text})}
+                      placeholder={"Commentaire"}
+                      placeholderTextColor="#FFF"
+                    />
+                    <TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
+                        <Text>
+                            Oui!
+                        </Text>
+                    </TouchableHighlight>
+                </View>
+            )
         }else {
             isSub = true
-            subComponent = (<TouchableHighlight onPress={() => {this.onUnsubscribe(user.id, event.id)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
-                                <Text>
-                                    UnSub
-                                </Text>
-            </TouchableHighlight>)
+            subComponent = (
+                <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
+                    <TouchableHighlight onPress={() => {this.onUpdateComment(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, backgroundColor: '#ecf0f1'}}>
+                        <Text>
+                            Edit!
+                        </Text>
+                    </TouchableHighlight>
+                    <TextInput
+                      style={{ width: 200, textAlign: 'center', padding: 5, color: '#FFFFFF' }}
+                      onChangeText={(text) => this.setState({comment: text})}
+                      placeholder={"Commentaire"}
+                      placeholderTextColor="#FFF"
+                      value={this.state.comment}
+                    />
+                    <TouchableHighlight onPress={() => {this.onUnsubscribe(user.id, event.id)}} style={{ height: 'auto', padding: 10, backgroundColor: '#ecf0f1'}}>
+                        <Text>
+                            Non!
+                        </Text>
+                    </TouchableHighlight>
+                </View>
+            )
         }
 
 
@@ -75,10 +112,10 @@ class EventItem extends React.Component {
             <ScrollView style={ style.container_event }>
                 <View style={{width: width, height: 'auto'}} >
                     <Image source={{ uri: event.imageUrl }} style={{ width: width, height: 300 }} />
-                    <Text style={{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', height: 'auto', padding: 10, fontSize:16, color: '#FFF', marginTop: 10, marginLeft: 10 }}>
+                    <Text style={ style.date }>
                         {event.date.split(" ")[0].trim()}
                     </Text>
-                    <Text style={{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.6)', height: 'auto', padding: 10, fontSize:16, marginTop: 10, right: 10, color: '#D92719' }}>
+                    <Text style={ style.hour }>
                         {event.date.split(" ")[1].trim()}
                     </Text>
                 </View>
@@ -90,22 +127,13 @@ class EventItem extends React.Component {
                     </TouchableHighlight>
                 </View>
                 <Collapsible collapsed={this.state.collapsed} align="bottom">
-                    <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',}}>
-                        <TextInput
-                          style={{ width: 200, textAlign: 'center', padding: 5 }}
-                          onChangeText={(text) => this.setState({comment: text})}
-                          placeholder={"Commentaire"}
-                          placeholderTextColor="#FFF"
-                        />
-                        {subComponent}
-                    </View>
+                    {subComponent}
                 </Collapsible>
                 <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row'}}>
                     <Text style={{ height: 'auto', alignSelf:'center',fontSize:16,justifyContent:'center',alignItems:'center', color: '#FFF', marginTop: 10, marginBottom: 10, marginLeft: 20, padding: 10 }}>
                       {event.description}
                     </Text>
                 </View>
-
                   <View style={{width: width, height: 'auto',backgroundColor: '#dedede'}} usersList={ this.state.usersList }>
                     <SubscribersList />
                   </View>
@@ -121,8 +149,16 @@ const mapStateToProps = (state) => {
     }
 };
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSubscribe: (userId, eventId, comment) => {dispatch(subscribe(userId,eventId, comment))},
+        onUnsubscribe: (userId, eventId) => {dispatch(unsubscribe(userId,eventId))},
+        onUpdateComment: (userId, eventId, comment) => {dispatch(updateComment(userId,eventId, comment))},
+    };
+};
+
 export default connect(mapStateToProps, {
-    subscribe, unsubscribe
+    subscribe, unsubscribe, updateComment
 })(EventItem);
 
 

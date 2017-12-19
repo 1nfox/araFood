@@ -1,5 +1,4 @@
 import React from 'react'
-import globaleStyle from '../styles/Style'
 import { connect } from 'react-redux';
 import { setCurrentEvent } from '../actions/firebase_event_handler';
 
@@ -9,6 +8,8 @@ import { StackNavigator } from 'react-navigation'
 import FadeInView from './animation/fadeInView'
 import EventsList from '../containers/Events-list'
 import EventItem from './Event-item'
+
+import style from '../styles/eventsListItemStyle'
 
 class EventListItem extends React.Component{
 
@@ -34,13 +35,13 @@ class EventListItem extends React.Component{
         <TouchableHighlight onPress={() => this.viewEvent(this.props)}> 
           <View style={[ style.flex,style.view, {backgroundColor: '#333'} ]} >
             <View style={ style.flex }>
-              <Text style={{ marginLeft: 10, color: 'red' }}>{ this.props.event.date }</Text>        
+              <Text style={ style.date }>{ this.props.event.date }</Text>
             </View>
             <Text style={ style.temp }>
               { this.props.event.title }
             </Text>
             <View style={ style.flex }>
-              <Image source={{ uri: this.props.event.imageUrl }} style={{ width: 200, height: 200 }} />
+              <Image source={{ uri: this.props.event.imageUrl }} style={ style.img } />
             </View>
           </View>
           </TouchableHighlight>
@@ -50,45 +51,6 @@ class EventListItem extends React.Component{
 
 
 }
-
-
-const style = StyleSheet.create({
-  white: {
-    color: '#FFF'
-  },
-  black: {
-    color: '#000'
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  flex: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  firstView: {
-    backgroundColor: globaleStyle.color,
-  },
-  view: {
-    backgroundColor: globaleStyle.color,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-
-  
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-    marginBottom: 30
-  },
-
-  temp: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 22,
-  }
-})
 
 const mapStateToProps = (state) => {
     return {
