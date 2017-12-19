@@ -8,6 +8,8 @@ export const CURRENT_EVENT_REQUEST_SUCCESS = 'CURRENT_EVENT_REQUEST_SUCCESS';
 
 export const EVENT_ADDED = 'EVENT_ADDED';
 export const EVENT_REMOVED = 'EVENT_REMOVED';
+export const SUBSCRIBER_ADDED = 'SUBSCRIBER_ADDED';
+export const SUBSCRIBER_REMOVED = 'SUBSCRIBER_REMOVED';
 
 
 export function getEvents() {
@@ -119,6 +121,7 @@ export function subscribe(userId, eventId, comment) {
           id: userId,
           comment: comment
         })
+        dispatch({ type: SUBSCRIBER_ADDED, payload: {id: userId, comment: comment} });
     }
 }
 
@@ -131,6 +134,7 @@ function getCurrentEventId() {
 export function unsubscribe(userId, eventId) {
     return dispatch => {
         firebase.database().ref('/events/' + eventId).child('subscribers/' + userId).remove()
+        dispatch({ type: SUBSCRIBER_REMOVED, payload: {id: userId} });
     }
 };
 
