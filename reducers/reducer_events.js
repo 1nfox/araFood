@@ -21,9 +21,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         case 'SUBSCRIBER_ADDED':
             return { ...state, current_event : {...state.current_event, subscribers: [...state.current_event.subscribers, action.payload] }};
         case 'SUBSCRIBER_REMOVED':
-            console.log('***************************')
-            console.log(state.current_event)
-            console.log(action.payload)
             const index = state.current_event.subscribers.findIndex( item => item.id === action.payload.id)
             return { ...state, current_event : {...state.current_event, subscribers: [...state.current_event.subscribers.slice(0, index), ...state.current_event.subscribers.slice(index + 1)]} };
 
