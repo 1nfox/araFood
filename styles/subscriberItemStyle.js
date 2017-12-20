@@ -20,10 +20,11 @@ export default {
         paddingBottom: 5
     },
     title_sub: {
-        paddingLeft: 5
+        paddingLeft: 10
     },
     comment_sub: {
-        paddingLeft: 5
+        paddingLeft: 10,
+        fontStyle: 'italic'
     },
     logo_sub: {
         borderWidth:1,

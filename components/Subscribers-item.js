@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Dimensions, Linking, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, ActivityIndicator, Dimensions, Linking, TouchableHighlight, KeyboardAvoidingView } from 'react-native'
 import { TabNavigator } from 'react-navigation'
+import { Icon } from 'react-native-elements'
 
 import style from '../styles/subscriberItemStyle'
 import * as firebase from 'firebase'
@@ -24,8 +25,8 @@ export default class Subscribers extends React.Component {
         this.state = {
             loading: true,
             collapsed: true,
+            comment: 'No comment',
             subscriberInfos: {username: '',
-                            comment: '',
                             avatar: ''}
         }
     }
@@ -38,6 +39,11 @@ export default class Subscribers extends React.Component {
                 loading: false
             })
         })
+        if (this.props.subscriber.comment != '') {
+            this.setState({
+                comment : this.props.subscriber.comment
+            })
+        }
     }
 
     mailToSub (mail) {
@@ -62,30 +68,45 @@ export default class Subscribers extends React.Component {
         } else {
             if (this.state.subscriberInfos !== undefined) {
                 return (
-                    <View style={style.container_sub}>
+                    <KeyboardAvoidingView behavior="padding" style={style.container_sub}>
                         <TouchableHighlight onPress={() => this._toggleExpanded()}>
                             <View style={style.container_row}>
                                 <Image source={{ uri: this.state.subscriberInfos.avatar }} style={style.logo_sub} />
                                 <View style={{ width: width, paddingTop: 2}}>
                                     <Text style={style.title_sub}>{ this.state.subscriberInfos.username }</Text>
-                                    <Text style={style.comment_sub}>{ this.props.subscriber.comment }</Text>
+                                    <Text style={style.comment_sub}>{ this.state.comment }</Text>
                                 </View>
                             </View>
                         </TouchableHighlight>
-                    <Collapsible collapsed={this.state.collapsed} align="bottom">
-                        <View style={style.container_collapsible}>
-                            <TouchableHighlight onPress={() => this.mailToSub(this.state.subscriberInfos.email)}>
-                                <Image source={{ uri: this.state.subscriberInfos.avatar }} style={style.logo_contact} />
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={() => this.phoneToSub(this.state.subscriberInfos.phone)}>
-                                <Image source={{ uri: this.state.subscriberInfos.avatar }} style={style.logo_contact} />
-                            </TouchableHighlight>
-                            <TouchableHighlight onPress={() => this.smsToSub(this.state.subscriberInfos.phone)}>
-                                <Image source={{ uri: this.state.subscriberInfos.avatar }} style={style.logo_contact} />
-                            </TouchableHighlight>
-                        </View>
-                    </Collapsible>
-                    </View>
+                        <Collapsible collapsed={this.state.collapsed} align="bottom">
+                            <View style={style.container_collapsible}>
+                                <TouchableHighlight onPress={() => this.mailToSub(this.state.subscriberInfos.email)}>
+                                    <View>
+                                        <Icon
+                                          name='mail'
+                                          color='#c0392b'
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={() => this.phoneToSub(this.state.subscriberInfos.phone)}>
+                                    <View>
+                                        <Icon
+                                          name='phone-in-talk'
+                                          color='#c0392b'
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                                <TouchableHighlight onPress={() => this.smsToSub(this.state.subscriberInfos.phone)}>
+                                    <View>
+                                        <Icon
+                                          name='sms'
+                                          color='#c0392b'
+                                        />
+                                    </View>
+                                </TouchableHighlight>
+                            </View>
+                        </Collapsible>
+                    </KeyboardAvoidingView>
                 )
             }else {
                 return (

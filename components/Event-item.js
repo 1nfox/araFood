@@ -2,6 +2,7 @@ import React from 'react'
 
 import { AppRegistry, View, Text, TextInput, StyleSheet, Image, Dimensions, ListView, ScrollView, TouchableHighlight, KeyboardAvoidingView } from 'react-native'
 import { TabNavigator } from 'react-navigation'
+import { Icon } from 'react-native-elements'
 
 import { connect } from 'react-redux';
 import { subscribe, unsubscribe, updateComment } from '../actions/firebase_event_handler';
@@ -76,9 +77,13 @@ class EventItem extends React.Component {
                       placeholderTextColor="#FFF"
                     />
                     <TouchableHighlight onPress={() => {this.onSubscribe(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, marginTop: 2, marginLeft: 60}}>
-                        <Text>
-                            Oui!
-                        </Text>
+                        <View>
+                            <Icon
+                              name='plus'
+                              type='simple-line-icon'
+                              color='#c0392b'
+                            />
+                        </View>
                     </TouchableHighlight>
                 </View>
             )
@@ -87,9 +92,12 @@ class EventItem extends React.Component {
             subComponent = (
                 <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
                     <TouchableHighlight onPress={() => {this.onUpdateComment(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, backgroundColor: '#ecf0f1'}}>
-                        <Text>
-                            Edit!
-                        </Text>
+                        <View>
+                            <Icon
+                              name='mode-edit'
+                              color='#c0392b'
+                            />
+                        </View>
                     </TouchableHighlight>
                     <TextInput
                       style={{ width: 200, textAlign: 'center', padding: 5, color: '#FFFFFF' }}
@@ -99,14 +107,17 @@ class EventItem extends React.Component {
                       value={this.state.comment}
                     />
                     <TouchableHighlight onPress={() => {this.onUnsubscribe(user.id, event.id)}} style={{ height: 'auto', padding: 10, backgroundColor: '#ecf0f1'}}>
-                        <Text>
-                            Non!
-                        </Text>
+                        <View>
+                            <Icon
+                              name='close'
+                              type='simple-line-icon'
+                              color='#c0392b'
+                            />
+                        </View>
                     </TouchableHighlight>
                 </View>
             )
         }
-
 
         return (
             <ScrollView style={ style.container_event }>
@@ -119,13 +130,17 @@ class EventItem extends React.Component {
                         {event.date.split(" ")[1].trim()}
                     </Text>
                 </View>
-                <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableHighlight onPress={() => this._toggleExpanded()}>
+                <TouchableHighlight onPress={() => this._toggleExpanded()}>
+                    <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
                         <Text style={{padding: 10, color: '#FFF'}}>
                             Participants: { subscribersCount }
                         </Text>
-                    </TouchableHighlight>
-                </View>
+                        <Icon
+                            name='person-add'
+                            color='#c0392b'
+                        />
+                    </View>
+                </TouchableHighlight>
                 <Collapsible collapsed={this.state.collapsed} align="bottom">
                     {subComponent}
                 </Collapsible>
