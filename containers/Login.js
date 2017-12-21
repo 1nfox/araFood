@@ -86,12 +86,7 @@ class Login extends Component {
         <TouchableHighlight onPress={() => this.onButtonPress()} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>Login</Text>
         </TouchableHighlight>
-        <Button
-            title="Sign IN"
-            onPress={() =>
-              navigate('SignIn')
-            }
-        />
+        <Text onPress={() => navigate('SignIn') } style={{justifyContent: 'center', color: '#FFF', textAlign: 'center'}}>Sign In</Text>
       </View>;
 
         return (

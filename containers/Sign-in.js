@@ -16,6 +16,8 @@ import {
     View
 } from 'react-native';
 
+import { FormLabel, FormInput } from 'react-native-elements'
+
 import styles from '../styles/loginStyle.js'
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
@@ -41,7 +43,13 @@ class SignIn extends Component {
             phone: '',
             avatar: null,
             loading: false,
-            imageHeight : new Animated.Value(150)
+            imageHeight : new Animated.Value(150),
+            error: 0,
+            usernameError: '',
+            passwordError: '',
+            passwordConfirmationError: '',
+            passwordConfirmationLengthError: '',
+            emailError: ''
         }
     }
 
@@ -55,9 +63,84 @@ class SignIn extends Component {
         this.keyboardWillHideSub.remove();
     }
 
+
+
     onButtonPress() {
-        this.props.signInUser(this.state.email, this.state.password, this.state.email, this.state.phone, this.state.avatar)
+        console.log(this.state.error)
+        if((this.state.usernameError.length > 0) && (this.state.passwordError.length > 0) && (this.state.emailError.length > 0)){
+            //this.props.signInUser(this.state.email, this.state.password, this.state.email, this.state.phone, this.state.avatar)
+            console.log('ca marche')
+        }
+
     }
+
+    validateUsername(username){
+        this.setState({
+            username: username
+        }, () => {
+          if(username.length < 4){
+                this.state.error = 0,
+                this.setState({ usernameError:"4 caractères minimum." })
+            }else{
+                this.state.error += 1,
+                this.setState({ usernameError:"" })
+            }
+        });            
+    }
+
+    validatePasswordLength(password){
+        this.setState({
+            password: password
+        }, () => {
+          if(password.length < 6){
+                this.state.error = 0,
+                this.setState({ passwordError:"6 caractères minimum."})
+            }else{
+                this.state.error += 1,
+                this.setState({ passwordError:""})
+            }
+        });   
+    }
+
+    validatePasswordConfirmationLength(confirmPassword){
+        this.setState({
+            confirmPassword: confirmPassword
+        }, () => {
+            if(confirmPassword.length < 6){
+                this.state.error = 0,
+                this.setState({ passwordConfirmationLengthError:"6 caractères minimum."})
+            }else{
+                this.state.error += 1,
+                this.setState({ passwordConfirmationLengthError:""})
+            }
+
+            if(this.state.password != this.state.confirmPassword){
+                this.state.error = 0,
+                this.setState({ passwordConfirmationError:"Les mots de passes ne sont pas identiques."})
+            }else{
+                this.state.error += 1,
+                this.setState({ passwordConfirmationError:""})
+            }
+
+        });
+    }
+
+    validateEmail(email){
+        this.setState({
+            email: email
+        }, () => {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(re.test(email) === false){
+                this.state.error = 0,
+                this.setState({ emailError:"Adresse e-mail incorrecte."})
+            }else{
+                this.state.error += 1,
+                this.setState({ emailError:""})
+            }
+        });            
+    }
+
+
 
     keyboardDidShow = (event) => {
         Animated.timing(this.state.imageHeight, {
@@ -83,7 +166,7 @@ class SignIn extends Component {
         }
     };
 
-
+ 
     render() {
     const {user} = this.props
     let avatar = this.state.avatar;
@@ -91,27 +174,36 @@ class SignIn extends Component {
       <View>
         <TextInput
             style={styles.textInput}
-            onChangeText={(text) => this.setState({username: text})}
+            onChangeText={(username) => this.validateUsername(username)}
             value={this.state.username}
             placeholder={"username*"} />
+        <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.usernameError}</Text>
+
         <TextInput
             style={styles.textInput}
-            onChangeText={(text) => this.setState({password: text})}
+            onChangeText={(password) => this.validatePasswordLength(password)}
             value={this.state.password}
             secureTextEntry={true}
             placeholder={"Password*"} />
+        <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.passwordError}</Text>
+
         <TextInput
             style={styles.textInput}
-            onChangeText={(text) => this.setState({confirmPassword: text})}
+            onChangeText={(confirmPassword) => this.validatePasswordConfirmationLength(confirmPassword)}
             value={this.state.confirmPassword}
             secureTextEntry={true}
             placeholder={"Confirm Password*"} />
+            <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.passwordConfirmationLengthError}</Text>
+        <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.passwordConfirmationError}</Text>
+
         <TextInput
             style={styles.textInput}
-            onChangeText={(text) => this.setState({email: text})}
+            onChangeText={(email) => this.validateEmail(email)}
             value={this.state.email}
             keyboardType='email-address'
-            placeholder={"email"} />
+            placeholder={"email*"} />
+        <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.emailError}</Text>
+
         <TextInput
             style={styles.textInput}
             onChangeText={(text) => this.setState({phone: text})}

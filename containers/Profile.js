@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { logoutUser } from '../actions'
 
-import styles from '../styles/loginStyle'
+import styles from '../styles/ProfileStyle'
 
 class Profile extends React.Component {
 
@@ -53,21 +53,12 @@ class Profile extends React.Component {
       </View>;
       
     return (
-       <View style={styles.container}>
-        <View style={{ height: 65, backgroundColor: '#c0392b' }}>
-          <Text style={{ paddingTop: 30, fontSize: 18, fontWeight: '700', marginLeft: 15, color: '#FFF' }}>Profil de {this.props.user.user.username}</Text>
+       <View style={ styles.container }>
+        <View style={ styles.titleContainer }>
+          <Text style={ styles.title }>Profil de {this.props.user.user.username}</Text>
         </View>
-        <View style={ styles.img, { backgroundColor: '#333',justifyContent: 'center', alignItems: 'center', paddingTop:120 }}>
-          <Image source={{ uri: this.props.user.user.avatar }}    style={{
-                                                                      borderWidth:1,
-                                                                      borderColor:'rgba(0,0,0,0.2)',
-                                                                      alignItems:'center',
-                                                                      justifyContent:'center',
-                                                                      width:150,
-                                                                      height:150,
-                                                                      backgroundColor:'#333',
-                                                                      borderRadius:150,
-                                                                    }}/>
+        <View style={ styles.imgContainer }>
+          <Image source={{ uri: this.props.user.user.avatar }} style={ styles.img }/>
         </View>
         <View style={styles.body}>
           {content}

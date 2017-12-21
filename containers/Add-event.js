@@ -24,7 +24,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment'
 
 import { ImagePicker } from 'expo';
-import styles from '../styles/loginStyle'
+import styles from '../styles/addEventStyle'
 
 class AddEvent extends React.Component {
 
@@ -38,7 +38,7 @@ class AddEvent extends React.Component {
     super(props)
     this.state = {
       name: '',
-      date: "Date de l'évenement",
+      date: "Date",
       description: '',
       image: null,
       loading: false,
@@ -87,13 +87,13 @@ class AddEvent extends React.Component {
     const content = 
       <View>
         <TextInput
-          style={textStyle.TextStyle}
+          style={styles.textInput}
           onChangeText={(text) => this.setState({name: text})}
-          placeholder={"Nom de l'évenement"} placeholderTextColor="#333" />
+          placeholder={"Titre"} />
 
         <View>
           <TouchableOpacity>
-            <Text style={textStyle.TextStyle}  onPress={this._showDateTimePicker} >{ this.state.date }</Text>
+            <Text style={styles.textInput, {borderBottomWidth: 1, textAlign: 'center', color: '#FFF', width: 200, marginTop: 20}}  onPress={this._showDateTimePicker} >{ this.state.date }</Text>
           </TouchableOpacity>
           <DateTimePicker
             mode={ 'datetime' }
@@ -104,18 +104,17 @@ class AddEvent extends React.Component {
         </View>
 
         <TextInput
-          style={ textStyle.TextStyle}
+          style={ styles.textInput}
           onChangeText={(text) => this.setState({description: text})}
-          placeholder={"Description de l'évenement"}
-          placeholderTextColor="#333"
+          placeholder={"Description"}
         />
 
         <TouchableOpacity onPress={this._pickImage}>
-          <View style={{justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
             { !image &&
-            <Text style={textStyle.TextStyle}>Image</Text>}
+            <Text style={styles.textInput, {borderBottomWidth: 1, textAlign: 'center', color: '#FFF', width: 200}}>Image</Text>}
             { image &&
-            <Image source={{ uri: 'data:image/jpeg;base64,'+image }} style={{ width: 200, height: 200 }} />}
+            <Image source={{ uri: 'data:image/jpeg;base64,'+image }} style={{ width: 150, height: 150 }} />}
           </View>
         </TouchableOpacity>
 
@@ -127,13 +126,15 @@ class AddEvent extends React.Component {
       
     return (
        <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <View style={{ height: 65, backgroundColor: '#c0392b' }}>
-          <Text style={{ paddingTop: 30, fontSize: 18, fontWeight: '700', marginLeft: 15, color: '#FFF' }}>Créer un évenement</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Créer un évenement</Text>
         </View>
+        
         <View style={styles.body}>
           {content}
         </View>
       </KeyboardAvoidingView>
+    
     );
   }
 }
