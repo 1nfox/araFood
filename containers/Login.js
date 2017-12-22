@@ -90,7 +90,6 @@ class Login extends Component {
       </View>;
 
         return (
-
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <Animated.Image source={logo} style={[styles.logo, { height: this.state.imageHeight }]} />
                 {content}

@@ -90,8 +90,8 @@ class EventItem extends React.Component {
         }else {
             isSub = true
             subComponent = (
-                <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',}}>
-                    <TouchableHighlight onPress={() => {this.onUpdateComment(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10, backgroundColor: '#ecf0f1'}}>
+                <View style={{width: width, height: 'auto',backgroundColor: '#333', flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#ecf0f1' }}>
+                    <TouchableHighlight onPress={() => {this.onUpdateComment(user.id, event.id, this.state.comment)}} style={{ height: 'auto', padding: 10 }}>
                         <View>
                             <Icon
                               name='mode-edit'
@@ -100,7 +100,7 @@ class EventItem extends React.Component {
                         </View>
                     </TouchableHighlight>
                     <TextInput
-                      style={{ width: 200, textAlign: 'center', padding: 5, color: '#FFFFFF' }}
+                      style={{ width: 200, textAlign: 'center', padding: 5, color: '#333' }}
                       onChangeText={(text) => this.setState({comment: text})}
                       placeholder={"Commentaire"}
                       placeholderTextColor="#FFF"

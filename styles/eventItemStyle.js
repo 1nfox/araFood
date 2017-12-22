@@ -18,7 +18,7 @@ export default {
     },
     date: {
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         height: 'auto',
         padding: 10,
         fontSize:16,
@@ -28,7 +28,7 @@ export default {
     },
     hour: {
         position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         height: 'auto',
         padding: 10,
         fontSize:16,

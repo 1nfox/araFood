@@ -37,24 +37,27 @@ class AddEvent extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      name: '',
-      date: "Date",
+      title: '',
+      date: "Date *",
       description: '',
       image: null,
       loading: false,
       isDateTimePickerVisible: false,
+      disabledButton: true,
+      titleError: "",
+      dateError: ""
     }
   }
 
   onAddEvent(){
-    //Rajouter un controle des données reçu
+    
     if(!this.state.image){
       image = 'https://firebasestorage.googleapis.com/v0/b/ara-food.appspot.com/o/Default%2Fplaceholder.jpg?alt=media&token=8bfe324b-c282-484c-bc87-9ee04c6dca92'
     }else{
       image = this.state.image
     }
     Keyboard.dismiss()
-    this.props.onAddEvent(this.state.name, this.state.date, this.state.description, 'data:image/jpeg;base64,'+image, this.props.user.user.id)
+    this.props.onAddEvent(this.state.title, this.state.date, this.state.description, image, this.props.user.user.id)
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -63,9 +66,7 @@ class AddEvent extends React.Component {
 
   _handleDatePicked = (dateNonSplit) => {
     goodDay = moment(dateNonSplit).format("YYYY-M-DD HH:mm")
-    this.setState({ 
-      date: goodDay
-    })
+    this.setState({ date: goodDay }, () => { this.validateDate(goodDay) })  
     this._hideDateTimePicker();
   };
 
@@ -81,6 +82,40 @@ class AddEvent extends React.Component {
     }
   };
 
+
+  validateTitle(title){
+      this.setState({
+          title: title
+      }, () => {
+        if(title.length < 4){
+              this.setState({ titleError:"4 caractères minimum." })
+          }else{
+              this.setState({ titleError:false }, () => {this.formValidated() })
+          }
+      });            
+  }
+
+  validateDate(date){
+    this.setState({
+        date: date
+    }, () => {
+      if(date.length < 0){
+            this.setState({ dateError:"Date obligatoire." })
+        }else{
+            this.setState({ dateError:false }, () => {this.formValidated() })
+        }
+    });            
+  }
+
+  formValidated(){
+    if((this.state.titleError === false) && (this.state.dateError === false)){
+        this.setState({ disabledButton:false })
+    }else{
+        this.setState({ disabledButton: true })
+    }
+  }
+
+
   render () {
     let image = this.state.image;
     const { navigate } = this.props.navigation;
@@ -88,12 +123,15 @@ class AddEvent extends React.Component {
       <View>
         <TextInput
           style={styles.textInput}
-          onChangeText={(text) => this.setState({name: text})}
-          placeholder={"Titre"} />
-
+          onChangeText={(title) => this.validateTitle(title)}
+          placeholder={"Titre *"} />
+        <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.titleError}</Text>
         <View>
           <TouchableOpacity>
-            <Text style={styles.textInput, {borderBottomWidth: 1, textAlign: 'center', color: '#FFF', width: 200, marginTop: 20}}  onPress={this._showDateTimePicker} >{ this.state.date }</Text>
+            <Text style={styles.textInput, {borderBottomWidth: 1, textAlign: 'center', color: '#FFF', width: 200, marginTop: 20}}  
+                  onPress={this._showDateTimePicker}>
+                  { this.state.date }
+            </Text>
           </TouchableOpacity>
           <DateTimePicker
             mode={ 'datetime' }
@@ -101,6 +139,7 @@ class AddEvent extends React.Component {
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
           />
+          <Text style={{ color: 'red', fontStyle: 'italic', textAlign: 'center'}}>{this.state.dateError}</Text>
         </View>
 
         <TextInput
@@ -118,7 +157,7 @@ class AddEvent extends React.Component {
           </View>
         </TouchableOpacity>
 
-        <TouchableHighlight style={styles.primaryButton} onPress={() => {this.onAddEvent()}}>
+        <TouchableHighlight style={styles.primaryButton} onPress={() => {this.onAddEvent()}} disabled={this.state.disabledButton}>
           <Text style={styles.primaryButtonText}>Créer</Text>
         </TouchableHighlight>
       </View>;
