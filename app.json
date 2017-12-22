@@ -1,5 +1,19 @@
 {
-  "expo": {
-    "sdkVersion": "22.0.0"
+"expo": {
+    "name": "Ara Food",
+    "icon": "./components/icons/logo-ara.png",
+    "splash": {
+      "image": "./components/icons/splashscreen-ara.png",
+      "backgroundColor": "#333333",
+    },
+    "version": "0.1.0",
+    "slug": "araFood-app",
+    "sdkVersion": "22.0.0",
+    "ios": {
+      "bundleIdentifier": "com.ara.araFood"
+    },
+    "android": {
+      "package": "com.ara.araFood"
+    }
   }
 }

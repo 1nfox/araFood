@@ -27,6 +27,7 @@ export const loginUser = ( email, password ) => (dispatch) => {
             }
             dispatch({ type: SIGN_IN_SUCCESS, payload: newUser });
             AsyncStorage.setItem('login', email+'/'+password);
+
           })
           .catch( (error) => {
               console.log(error)

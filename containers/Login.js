@@ -32,8 +32,8 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state = {
-          email: 'jbelmont@groupe-ara.com',
-          password: 'jbelara',
+          email: 'rolivier@groupe-ara.com',
+          password: 'roliara',
           loading: false,
           imageHeight : new Animated.Value(150)
         }
@@ -43,27 +43,27 @@ class Login extends Component {
         this.props.loginUser(this.state.email, this.state.password)
     }
 
-      componentWillMount () {
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-      }
+    componentWillMount () {
+      this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+      this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+    }
 
-      componentWillUnmount() {
-        this.keyboardWillShowSub.remove();
-        this.keyboardWillHideSub.remove();
+    componentWillUnmount() {
+      this.keyboardWillShowSub.remove();
+      this.keyboardWillHideSub.remove();
     }
 
 
-      keyboardDidShow = (event) => {
-        Animated.timing(this.state.imageHeight, {
-          toValue: 80,
-        }).start();
-      };
+    keyboardDidShow = (event) => {
+      Animated.timing(this.state.imageHeight, {
+        toValue: 80,
+      }).start();
+    };
 
-      keyboardDidHide = (event) => {
-        Animated.timing(this.state.imageHeight, {
-          toValue: 150,
-        }).start();
+    keyboardDidHide = (event) => {
+      Animated.timing(this.state.imageHeight, {
+        toValue: 150,
+      }).start();
     };
 
 
