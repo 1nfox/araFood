@@ -205,17 +205,18 @@ class SignIn extends Component {
         <TouchableOpacity onPress={this._pickImage}>
           <View style={{justifyContent: 'center', alignItems: 'center',}}>
             { !avatar &&
-            <Text style={textStyle.TextStyle}>Avatar</Text>}
+            <Text style={textStyle.TextStyle, { borderBottomWidth: 1, textAlign: 'center', color: '#FFF', width: 200, marginTop: 20}}>Avatar</Text>}
             { avatar &&
-            <Image source={{ uri: 'data:image/jpeg;base64,'+avatar }}  style={{borderWidth:1,
-                                                                                borderColor:'rgba(0,0,0,0.2)',
-                                                                                alignItems:'center',
-                                                                                justifyContent:'center',
-                                                                                width:80,
-                                                                                height:80,
-                                                                                backgroundColor:'#333',
-                                                                                borderRadius:80,
-                                                                              }} />}
+            <Image  source={{ uri: 'data:image/jpeg;base64,'+avatar }}  
+                    style={{borderWidth:1,
+                    borderColor:'rgba(0,0,0,0.2)',
+                    alignItems:'center',
+                    justifyContent:'center',
+                    width:80,
+                    height:80,
+                    backgroundColor:'#333',
+                    borderRadius:80,
+                  }} />}
           </View>
         </TouchableOpacity>
         <TouchableHighlight onPress={() => this.onButtonPress()} style={styles.primaryButton} disabled={this.state.disabledButton}>
@@ -226,9 +227,9 @@ class SignIn extends Component {
 
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
-            <Animated.Image source={logo} style={[styles.logo, { height: this.state.imageHeight }]} />
-            {content}
-            <View style={{ height: 60 }} />
+                <Animated.Image source={logo} style={[styles.logo, { height: this.state.imageHeight }]} />
+                    {content}
+                <View style={{ height: 60 }} />
             </KeyboardAvoidingView>
         );
     }

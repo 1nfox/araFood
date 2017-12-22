@@ -1,11 +1,30 @@
 import React from 'react'
 
-import { AppRegistry, View, Text, TextInput, StyleSheet, Image, Dimensions, ListView, ScrollView, TouchableHighlight, KeyboardAvoidingView } from 'react-native'
+import { 
+    AppRegistry, 
+    View, 
+    Text, 
+    TextInput, 
+    StyleSheet, 
+    Image, 
+    Dimensions, 
+    ListView, 
+    ScrollView, 
+    TouchableHighlight, 
+    KeyboardAvoidingView 
+} from 'react-native'
+
+
 import { TabNavigator } from 'react-navigation'
 import { Icon } from 'react-native-elements'
 
 import { connect } from 'react-redux';
-import { subscribe, unsubscribe, updateComment } from '../actions/firebase_event_handler';
+
+import { 
+    subscribe, 
+    unsubscribe, 
+    updateComment 
+} from '../actions/firebase_event_handler';
 
 import Collapsible from 'react-native-collapsible';
 
