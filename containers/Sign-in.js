@@ -44,7 +44,7 @@ class SignIn extends Component {
             avatar: null,
             loading: false,
             imageHeight : new Animated.Value(150),
-            error: 0,
+            disabledButton: true,
             usernameError: '',
             passwordError: '',
             passwordConfirmationError: '',
@@ -64,14 +64,8 @@ class SignIn extends Component {
     }
 
 
-
     onButtonPress() {
-        console.log(this.state.error)
-        if((this.state.usernameError.length > 0) && (this.state.passwordError.length > 0) && (this.state.emailError.length > 0)){
-            //this.props.signInUser(this.state.email, this.state.password, this.state.email, this.state.phone, this.state.avatar)
-            console.log('ca marche')
-        }
-
+        this.props.signInUser(this.state.email, this.state.password, this.state.email, this.state.phone, this.state.avatar)
     }
 
     validateUsername(username){
@@ -79,11 +73,9 @@ class SignIn extends Component {
             username: username
         }, () => {
           if(username.length < 4){
-                this.state.error = 0,
                 this.setState({ usernameError:"4 caractères minimum." })
             }else{
-                this.state.error += 1,
-                this.setState({ usernameError:"" })
+                this.setState({ usernameError:false }, () => {this.formValidated() })
             }
         });            
     }
@@ -93,11 +85,9 @@ class SignIn extends Component {
             password: password
         }, () => {
           if(password.length < 6){
-                this.state.error = 0,
-                this.setState({ passwordError:"6 caractères minimum."})
+                this.setState({ passwordError:"6 caractères minimum." })
             }else{
-                this.state.error += 1,
-                this.setState({ passwordError:""})
+                this.setState({ passwordError:false }, () => {this.formValidated() })
             }
         });   
     }
@@ -107,39 +97,41 @@ class SignIn extends Component {
             confirmPassword: confirmPassword
         }, () => {
             if(confirmPassword.length < 6){
-                this.state.error = 0,
-                this.setState({ passwordConfirmationLengthError:"6 caractères minimum."})
+                this.setState({ passwordConfirmationLengthError:"6 caractères minimum." })
             }else{
-                this.state.error += 1,
-                this.setState({ passwordConfirmationLengthError:""})
+                this.setState({ passwordConfirmationLengthError:false }, () => {this.formValidated() })
             }
 
             if(this.state.password != this.state.confirmPassword){
-                this.state.error = 0,
-                this.setState({ passwordConfirmationError:"Les mots de passes ne sont pas identiques."})
+                this.setState({ passwordConfirmationError:"Les mots de passes ne sont pas identiques." })
             }else{
-                this.state.error += 1,
-                this.setState({ passwordConfirmationError:""})
+                this.setState({ passwordConfirmationError:false }, () => {this.formValidated() })
             }
 
         });
     }
 
     validateEmail(email){
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         this.setState({
             email: email
         }, () => {
-            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if(re.test(email) === false){
-                this.state.error = 0,
-                this.setState({ emailError:"Adresse e-mail incorrecte."})
+                this.setState({ emailError:"Adresse e-mail incorrecte." })
             }else{
-                this.state.error += 1,
-                this.setState({ emailError:""})
+                this.setState({ emailError:false }, () => {this.formValidated() })
+                
             }
         });            
     }
 
+    formValidated(){
+        if((this.state.usernameError === false) && (this.state.passwordConfirmationError === false) && (this.state.emailError === false)){
+            this.setState({ disabledButton:false })
+        }else{
+            this.setState({ disabledButton: true })
+        }
+    }
 
 
     keyboardDidShow = (event) => {
@@ -168,9 +160,9 @@ class SignIn extends Component {
 
  
     render() {
-    const {user} = this.props
-    let avatar = this.state.avatar;
-    const content = user.loading ? <ActivityIndicator size="large"/> :
+        const {user} = this.props
+        let avatar = this.state.avatar;
+        const content = user.loading ? <ActivityIndicator size="large"/> :
       <View>
         <TextInput
             style={styles.textInput}
@@ -226,7 +218,7 @@ class SignIn extends Component {
                                                                               }} />}
           </View>
         </TouchableOpacity>
-        <TouchableHighlight onPress={() => this.onButtonPress()} style={styles.primaryButton}>
+        <TouchableHighlight onPress={() => this.onButtonPress()} style={styles.primaryButton} disabled={this.state.disabledButton}>
           <Text style={styles.primaryButtonText}>Sign In</Text>
         </TouchableHighlight>
 
